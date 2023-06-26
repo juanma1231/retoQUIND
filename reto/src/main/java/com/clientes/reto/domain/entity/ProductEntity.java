@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductEntity {
 
-    @Id
+
     @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -26,6 +26,7 @@ public class ProductEntity {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
+    @Id
     @Column(name = "product_number", nullable = false, length = 10)
     private Integer producNumber;
 

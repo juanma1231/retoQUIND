@@ -4,6 +4,7 @@ import com.clientes.reto.domain.entity.PersonEntity;
 import com.clientes.reto.domain.entity.ProductEntity;
 import com.clientes.reto.repository.PersonRepository;
 import com.clientes.reto.repository.ProductRepository;
+import com.clientes.reto.response.CustomException;
 import com.clientes.reto.response.CustomResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,13 +24,13 @@ public class PersonService{
         return personRepository.findAll();
     }
 
-    public  PersonEntity save(PersonEntity personEntity) throws CustomResponse {
+    public  PersonEntity save(PersonEntity personEntity){
         if (personEntity.getAge() >= 18){
             return personRepository.save(personEntity);
         }
-        else throw new CustomResponse("Debe ser mayor a 18 años");
+        else throw new CustomException("Debe ser mayor a 18 años");
     }
-    public void delete(String email) throws CustomResponse {
+    public void delete(String email){
         List<ProductEntity> products = productRepository.finByUser(email);
         boolean deudas= false;
         for(ProductEntity product:products){
@@ -40,6 +41,6 @@ public class PersonService{
         if(!deudas){
             personRepository.deleteById(email);
         }
-        else throw new CustomResponse("se encontraron deudas en sus cuentas asociadas");
+        else throw new CustomException("se encontraron deudas en sus cuentas asociadas");
     }
 }
