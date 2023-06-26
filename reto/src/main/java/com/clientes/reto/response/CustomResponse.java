@@ -12,6 +12,7 @@ public class CustomResponse extends Throwable {
     private int state;
     private Object responseObject;
 
+
     public CustomResponse() {}
 
     public CustomResponse(String message, HttpStatus state) {
