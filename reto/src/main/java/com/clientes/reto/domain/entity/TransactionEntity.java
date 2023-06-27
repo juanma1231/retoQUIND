@@ -22,6 +22,9 @@ public class TransactionEntity {
     @Column
     private String description;
 
+    @Column
+    private Double monto;
+
     @ManyToOne
     @JoinColumn(name = "product_number")
     private ProductEntity productEntity;

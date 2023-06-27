@@ -1,6 +1,7 @@
 package com.clientes.reto.controller;
 
 import com.clientes.reto.domain.entity.PersonEntity;
+import com.clientes.reto.response.CustomException;
 import com.clientes.reto.response.CustomResponse;
 import com.clientes.reto.service.PersonService;
 import org.apache.coyote.Response;
@@ -43,7 +44,7 @@ public class PersonController {
             response = new ResponseEntity<>(customResponse, HttpStatus.OK);
 
 
-        } catch (CustomResponse e) {
+        } catch (CustomException e) {
             response = new ResponseEntity<>("Tenemos un error tratando de crear el usaurio", HttpStatus.BAD_REQUEST);
         }
         return response;
@@ -57,7 +58,7 @@ public class PersonController {
             CustomResponse customResponse = new CustomResponse("Usuario eliminado con exito", HttpStatus.OK);
             customResponse.setResponseObject(mail);
             response = new ResponseEntity<>(customResponse, HttpStatus.OK);
-        } catch (CustomResponse e) {
+        } catch (CustomException e) {
             response = new ResponseEntity<>(e,HttpStatus.BAD_REQUEST);
         }
         return response;

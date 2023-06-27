@@ -1,6 +1,7 @@
 package com.clientes.reto.service;
 
 import com.clientes.reto.domain.entity.ProductEntity;
+import com.clientes.reto.domain.enums.AccountType;
 import com.clientes.reto.repository.ProductRepository;
 import com.clientes.reto.response.CustomException;
 import com.clientes.reto.response.CustomResponse;
@@ -16,12 +17,15 @@ public class TransactionService {
 
     public ProductEntity retiro(Integer accountNumber, double monto) {
         ProductEntity productEntity = productService.finById(accountNumber);
-        if (productEntity.getBalance()>=monto && productEntity.getAvailableBalance()>= monto){
-            productEntity.setBalance(productEntity.getBalance() - monto);
-            productEntity.setAvailableBalance(productEntity.getAvailableBalance() - monto);
-            return productService.save(productEntity);
-        }
-        else throw new CustomException("el monto que desea retirar, excede su saldo disponible");
+        double montofavor = monto - productEntity.getAvailableBalance();
+        if (productEntity.getAccountType().equals(AccountType.CORRIENTE)){
+            if (productEntity.getBalance()>=monto && productEntity.getAvailableBalance()>= monto){
+                productEntity.setBalance(productEntity.getBalance() - monto);
+                productEntity.setAvailableBalance(productEntity.getAvailableBalance() - monto);
+                return productService.save(productEntity);
+            }else throw new CustomException("no se puede");
+
+        } else throw new CustomException("el monto que desea retirar, excede su saldo disponible");
     }
     public ProductEntity consignacion(Integer accountNumber, double monto){
         ProductEntity product= productService.finById(accountNumber);
