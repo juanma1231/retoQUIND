@@ -1,6 +1,7 @@
 package com.clientes.reto.domain.entity;
 
 import com.clientes.reto.domain.enums.AccountType;
+import com.clientes.reto.domain.enums.State;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -31,7 +32,8 @@ public class ProductEntity {
     private Integer producNumber;
 
     @Column(nullable = false)
-    private  String state;
+    @Enumerated(EnumType.STRING)
+    private State state;
 
     @Column(nullable = false)
     private  Double balance;

@@ -15,3 +15,4 @@ public interface ProductRepository extends CrudRepository<ProductEntity, Integer
     @Query(nativeQuery = true, value = "SELEC * FROM product p WHERE p.product_number = ?1")
     ProductEntity finById(Integer id);
 }
+
