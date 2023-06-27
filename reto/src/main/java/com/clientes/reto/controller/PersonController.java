@@ -50,13 +50,26 @@ public class PersonController {
         return response;
     }
 
-    @DeleteMapping("/delete/user")
-    public ResponseEntity<Object> deleteUser(@RequestBody String mail){
+    @DeleteMapping("/delete/{mail}")
+    public ResponseEntity<Object> deleteUser(@PathVariable("mail") String mail){
         ResponseEntity<Object> response;
         try {
             personService.delete(mail);
             CustomResponse customResponse = new CustomResponse("Usuario eliminado con exito", HttpStatus.OK);
             customResponse.setResponseObject(mail);
+            response = new ResponseEntity<>(customResponse, HttpStatus.OK);
+        } catch (CustomException e) {
+            response = new ResponseEntity<>(e,HttpStatus.BAD_REQUEST);
+        }
+        return response;
+    }
+    @PatchMapping("/update/user/{email}")
+    public ResponseEntity<Object> updateUser(@PathVariable("email") String email, @RequestBody PersonEntity personEntity){
+        ResponseEntity<Object> response;
+        try {
+            PersonEntity person = personService.patch(email, personEntity);
+            CustomResponse customResponse = new CustomResponse("Usuario actulizado con exito", HttpStatus.OK);
+            customResponse.setResponseObject(person);
             response = new ResponseEntity<>(customResponse, HttpStatus.OK);
         } catch (CustomException e) {
             response = new ResponseEntity<>(e,HttpStatus.BAD_REQUEST);

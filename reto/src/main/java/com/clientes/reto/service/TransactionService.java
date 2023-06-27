@@ -1,21 +1,29 @@
 package com.clientes.reto.service;
 
 import com.clientes.reto.domain.entity.ProductEntity;
+import com.clientes.reto.domain.entity.TransactionEntity;
 import com.clientes.reto.domain.enums.AccountType;
 import com.clientes.reto.repository.ProductRepository;
+import com.clientes.reto.repository.TransactionRepository;
 import com.clientes.reto.response.CustomException;
 import com.clientes.reto.response.CustomResponse;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public class TransactionService {
     @Autowired
     ProductService productService;
 
-    public ProductEntity retirar(Integer accountNumber, double monto) {
+    @Autowired
+    TransactionRepository transactionRepository;
+
+    public TransactionEntity retirar(TransactionEntity transactionEntity) {
+        double monto = transactionEntity.getMonto();
+        Integer accountNumber = transactionEntity.getAccountId();
         ProductEntity productEntity = productService.finById(accountNumber);
         double montofavor = monto - productEntity.getAvailableBalance();
         if(productEntity!=null){
@@ -26,14 +34,17 @@ public class TransactionService {
                     if (productEntity.getAvailableBalance() - monto < 0){
                         productEntity.setDeaudas(true);
                     }
-                    return productService.save(productEntity);
+                    productService.save(productEntity);
+                    return transactionRepository.save(transactionEntity);
                 }else throw new CustomException("No puede sobregirar la cuenta a más de 3 millones");
 
             } else throw new CustomException("el monto que desea retirar, excede su saldo disponible");
         }else throw new CustomException("la cuenta no existe");
 
     }
-    public ProductEntity consignar(Integer accountNumber, double monto){
+    public TransactionEntity consignar(TransactionEntity transactionEntity){
+        double monto = transactionEntity.getMonto();
+        Integer accountNumber = transactionEntity.getAccountId();
         ProductEntity product= productService.finById(accountNumber);
         if(product!=null){
             product.setBalance(product.getBalance() + monto);
@@ -41,11 +52,14 @@ public class TransactionService {
             if(product.getAccountType().equals(AccountType.CORRIENTE) && product.getBalance()>=0){
                 product.setDeaudas(false);
             }
-            return  productService.save(product);
+            productService.save(product);
+            return transactionRepository.save(transactionEntity);
         }else throw new CustomException("La cuenta no existe");
 
     }
-    public ProductEntity hacerTransferencia(Integer receptor, Integer emisot, double monto){
+    public TransactionEntity hacerTransferencia(Integer receptor, TransactionEntity transactionEntity){
+        Integer emisot = transactionEntity.getAccountId();
+        double monto = transactionEntity.getMonto();
         ProductEntity product = productService.finById(receptor);
         ProductEntity product1 = productService.finById(emisot);
         double montofavor = monto - product1.getAvailableBalance();
@@ -62,10 +76,15 @@ public class TransactionService {
                         product.setDeaudas(false);
                     }
                     productService.save(product);
-                    return productService.save(product1);
+                    productService.save(product1);
+                    return transactionRepository.save(transactionEntity);
                 }else throw new CustomException("El emsisor no tiene saldo disponible");
             }else throw new CustomException("No puede sobregirar la cuenta màs de 3 millones");
         }else throw new CustomException("Alguna de las dos cuentas no existen en el sistema");
 
+    }
+
+    public List<TransactionEntity> findByAccountId(Integer accountId){
+        return transactionRepository.findByAccountId(accountId);
     }
 }
