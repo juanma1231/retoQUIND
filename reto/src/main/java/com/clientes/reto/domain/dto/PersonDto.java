@@ -1,8 +1,14 @@
 package com.clientes.reto.domain.dto;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.xml.crypto.Data;
 import java.util.List;
-
+@Getter
+@Setter
+@NoArgsConstructor
 public class PersonDto {
     private Integer id;
     private String idType;
