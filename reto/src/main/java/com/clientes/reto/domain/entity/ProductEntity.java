@@ -47,7 +47,7 @@ public class ProductEntity {
     @Column(name = "update_date", nullable = false, columnDefinition = "DATETIME")
     private LocalDateTime updateDate;
 
-    @Column(name = "id_client", nullable = false)
+    @Column(name = "id_client")
     private  String idClient;
 
 
@@ -57,9 +57,9 @@ public class ProductEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_client", insertable = false, updatable = false)
-    private  PersonEntity client;
+    private  String client;
 
-    public ProductEntity(Integer id, AccountType accountType, Integer producNumber, State state, Double balance, Boolean deaudas, Double availableBalance, Boolean excentaGMF, LocalDateTime creationDate, LocalDateTime updateDate, String idClient, List<TransactionEntity> transactions, PersonEntity client) {
+    public ProductEntity(Integer id, AccountType accountType, Integer producNumber, State state, Double balance, Boolean deaudas, Double availableBalance, Boolean excentaGMF, LocalDateTime creationDate, LocalDateTime updateDate, String idClient, List<TransactionEntity> transactions, String client) {
         this.id = id;
         this.accountType = accountType;
         this.producNumber = producNumber;
@@ -174,11 +174,11 @@ public class ProductEntity {
         this.transactions = transactions;
     }
 
-    public PersonEntity getClient() {
+    public String getClient() {
         return client;
     }
 
-    public void setClient(PersonEntity client) {
+    public void setClient(String client) {
         this.client = client;
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 @Entity
 @Table(name = "person")
 public class PersonEntity {
-
+    @Id
     @Column(name = "person_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -23,11 +23,11 @@ public class PersonEntity {
     @Column(nullable = false)
     private String lastname;
 
-    @Id
+
     @Column(nullable = false)
     private String email;
 
-    @Column(name = "birth_day", nullable = false, columnDefinition = "DATETIME")
+    @Column(name = "birth_day", columnDefinition = "DATETIME")
     private LocalDateTime birthDay;
 
     @Column(nullable = false)
@@ -46,8 +46,7 @@ public class PersonEntity {
     public PersonEntity() {
     }
 
-    public PersonEntity(Integer id, String idType, Integer idNumber, String name, String lastname, String email, LocalDateTime birthDay, Integer age, LocalDateTime creationDate, LocalDateTime updateDate, List<ProductEntity> products) {
-        this.id = id;
+    public PersonEntity( String idType, Integer idNumber, String name, String lastname, String email, LocalDateTime birthDay, Integer age, LocalDateTime creationDate, LocalDateTime updateDate, List<ProductEntity> products) {
         this.idType = idType;
         this.idNumber = idNumber;
         this.name = name;
@@ -55,9 +54,6 @@ public class PersonEntity {
         this.email = email;
         this.birthDay = birthDay;
         this.age = age;
-        this.creationDate = creationDate;
-        this.updateDate = updateDate;
-        this.products = products;
     }
 
     public Integer getId() {

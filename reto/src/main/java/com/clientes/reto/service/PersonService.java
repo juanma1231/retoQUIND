@@ -29,6 +29,7 @@ public class PersonService{
         if (personEntity.getAge() >= 18){
             personEntity.setCreationDate(LocalDateTime.now());
             personEntity.setUpdateDate(LocalDateTime.now());
+            personEntity.setBirthDay(LocalDateTime.now());
             return personRepository.save(personEntity);
         }
         else throw new CustomException("Debe ser mayor a 18 años");

@@ -3,12 +3,18 @@ package com.clientes.reto.controller;
 import com.clientes.reto.domain.entity.PersonEntity;
 import com.clientes.reto.response.CustomException;
 import com.clientes.reto.response.CustomResponse;
+import com.clientes.reto.response.Response;
 import com.clientes.reto.service.PersonService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/client")
@@ -17,17 +23,24 @@ public class PersonController {
     private PersonService personService;
 
     @GetMapping()
-    public ResponseEntity<Object> getAllUsers(){
-        ResponseEntity<Object> response;
+    public ResponseEntity<Response<PersonEntity>> getAllUsers(){
+        ResponseEntity<Response<PersonEntity>> response;
+        List<String> messages = new ArrayList<>();
+        Response<PersonEntity> response1 = new Response<>();
+        HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            Iterable<PersonEntity> users = personService.getAllUsers();
-            CustomResponse response1 = new CustomResponse("Consulta Exitosa", HttpStatus.OK);
-            response1.setResponseObject(users);
-            response = new ResponseEntity<>(response1, HttpStatus.OK);
+            List<PersonEntity> users = StreamSupport.stream(personService.getAllUsers().spliterator(), false)
+                    .collect(Collectors.toList());
+            response1.setData(users);
+            messages.add("OK");
+            status = HttpStatus.OK;
 
         }catch (Exception e){
-            response = new ResponseEntity<>("Eror al consultar", HttpStatus.BAD_REQUEST);
+            messages.add(e.getMessage());
         }
+        response1.setMessage(messages);
+        response1.setStatus(status);
+        response = new ResponseEntity<>(response1,status);
         return response;
     }
 
