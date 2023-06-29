@@ -3,17 +3,18 @@ package com.clientes.reto.service;
 import com.clientes.reto.domain.entity.ProductEntity;
 import com.clientes.reto.domain.entity.TransactionEntity;
 import com.clientes.reto.domain.enums.AccountType;
-import com.clientes.reto.repository.ProductRepository;
+
 import com.clientes.reto.repository.TransactionRepository;
 import com.clientes.reto.response.CustomException;
-import com.clientes.reto.response.CustomResponse;
-import lombok.Data;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
+@Service
 public class TransactionService {
     @Autowired
     ProductService productService;
@@ -34,6 +35,7 @@ public class TransactionService {
                     if (productEntity.getAvailableBalance() - monto < 0){
                         productEntity.setDeaudas(true);
                     }
+                    productEntity.setUpdateDate(LocalDateTime.now());
                     productService.save(productEntity);
                     return transactionRepository.save(transactionEntity);
                 }else throw new CustomException("No puede sobregirar la cuenta a más de 3 millones");
@@ -52,12 +54,13 @@ public class TransactionService {
             if(product.getAccountType().equals(AccountType.CORRIENTE) && product.getBalance()>=0){
                 product.setDeaudas(false);
             }
+            product.setUpdateDate(LocalDateTime.now());
             productService.save(product);
             return transactionRepository.save(transactionEntity);
         }else throw new CustomException("La cuenta no existe");
 
     }
-    public TransactionEntity hacerTransferencia(Integer receptor, TransactionEntity transactionEntity){
+    public TransactionEntity doATransference(Integer receptor, TransactionEntity transactionEntity){
         Integer emisot = transactionEntity.getAccountId();
         double monto = transactionEntity.getMonto();
         ProductEntity product = productService.finById(receptor);
@@ -75,6 +78,8 @@ public class TransactionService {
                     } else if (product.getAccountType().equals(AccountType.CORRIENTE) && product.getBalance()>=0) {
                         product.setDeaudas(false);
                     }
+                    product.setUpdateDate(LocalDateTime.now());
+                    product1.setUpdateDate(LocalDateTime.now());
                     productService.save(product);
                     productService.save(product1);
                     return transactionRepository.save(transactionEntity);

@@ -54,7 +54,7 @@ public class TransactionController {
     public ResponseEntity<Object> tranferir(@RequestBody TransactionEntity transactionEntity, @PathVariable("accountid") Integer accountId){
         ResponseEntity<Object> response;
         try {
-            TransactionEntity transaction = transactionService.hacerTransferencia(accountId, transactionEntity);
+            TransactionEntity transaction = transactionService.doATransference(accountId, transactionEntity);
             CustomResponse customResponse = new CustomResponse("Transferencia exitosa", HttpStatus.OK);
             customResponse.setResponseObject(transaction);
             response = new ResponseEntity<>(customResponse, HttpStatus.OK);

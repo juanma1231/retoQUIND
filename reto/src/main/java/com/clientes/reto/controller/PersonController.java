@@ -4,14 +4,11 @@ import com.clientes.reto.domain.entity.PersonEntity;
 import com.clientes.reto.response.CustomException;
 import com.clientes.reto.response.CustomResponse;
 import com.clientes.reto.service.PersonService;
-import org.apache.coyote.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/client")
@@ -19,7 +16,7 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    @GetMapping("/users")
+    @GetMapping()
     public ResponseEntity<Object> getAllUsers(){
         ResponseEntity<Object> response;
         try {
@@ -34,7 +31,7 @@ public class PersonController {
         return response;
     }
 
-    @PostMapping("/create/user")
+    @PostMapping()
     public ResponseEntity<Object> createUser(@RequestBody PersonEntity personEntity) {
         ResponseEntity<Object> response;
         try {
@@ -50,7 +47,7 @@ public class PersonController {
         return response;
     }
 
-    @DeleteMapping("/delete/{mail}")
+    @DeleteMapping("/{mail}")
     public ResponseEntity<Object> deleteUser(@PathVariable("mail") String mail){
         ResponseEntity<Object> response;
         try {
@@ -63,7 +60,7 @@ public class PersonController {
         }
         return response;
     }
-    @PatchMapping("/update/user/{email}")
+    @PatchMapping("/user/{email}")
     public ResponseEntity<Object> updateUser(@PathVariable("email") String email, @RequestBody PersonEntity personEntity){
         ResponseEntity<Object> response;
         try {
