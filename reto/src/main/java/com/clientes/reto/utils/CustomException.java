@@ -1,4 +1,4 @@
-package com.clientes.reto.response;
+package com.clientes.reto.utils;
 
 public class CustomException extends RuntimeException{
     private final String message;

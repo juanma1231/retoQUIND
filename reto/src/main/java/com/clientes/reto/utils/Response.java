@@ -1,4 +1,4 @@
-package com.clientes.reto.response;
+package com.clientes.reto.utils;
 
 import org.springframework.http.HttpStatus;
 

@@ -1,13 +1,18 @@
 package com.clientes.reto.controller;
 
+import com.clientes.reto.domain.entity.PersonEntity;
 import com.clientes.reto.domain.entity.ProductEntity;
-import com.clientes.reto.response.CustomResponse;
+import com.clientes.reto.utils.CustomException;
+import com.clientes.reto.utils.CustomResponse;
+import com.clientes.reto.utils.Response;
+import com.clientes.reto.service.PersonService;
 import com.clientes.reto.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,31 +21,55 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    PersonService personService;
+
     @PostMapping("/create")
-    public ResponseEntity<Object> create(@RequestBody ProductEntity product){
-        ResponseEntity<Object> response;
+    public ResponseEntity<Response<ProductEntity>> create(@RequestBody ProductEntity product){
+        ResponseEntity<Response<ProductEntity>> responseEntity;
+        List<String> messages = new ArrayList<>();
+        List<ProductEntity> data = new ArrayList<>();
+        Response<ProductEntity> response = new Response<>();
+        HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            productService.create(product);
-            CustomResponse customResponse = new CustomResponse("Cuenta creada con exito", HttpStatus.CREATED);
-            customResponse.setResponseObject(product);
-            response= new ResponseEntity<>(customResponse, HttpStatus.CREATED);
-        } catch (Exception e) {
-            response = new ResponseEntity<>("hubo un error tratando de crear el producto", HttpStatus.BAD_REQUEST);
+            PersonEntity personEntity = personService.findById(product.getIdClient());
+            product.setClient(personEntity);
+            List<ProductEntity> productEntities = personEntity.getProducts();
+            productEntities.add(product);
+            personEntity.setProducts(productEntities);
+
+            data.add(productService.create(product));
+            response.setData(data);
+            messages.add("Producto creado con exito");
+            status = HttpStatus.OK;
+
+        } catch (CustomException e) {
+            messages.add(e.getMessage());
         }
-        return response;
+        response.setMessage(messages);
+        response.setStatus(status);
+        responseEntity = new ResponseEntity<>(response,status);
+        return responseEntity;
     }
     @GetMapping("/{email}")
-    public ResponseEntity<Object> getByUser(@PathVariable("email") String email){
-        ResponseEntity<Object> response;
+    public ResponseEntity<Response<ProductEntity>> getByUser(@PathVariable("email") String email){
+        ResponseEntity<Response<ProductEntity>> responseEntity;
+        List<String> messages = new ArrayList<>();
+        List<ProductEntity> data = new ArrayList<>();
+        Response<ProductEntity> response = new Response<>();
+        HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
             List<ProductEntity> productEntities = productService.finByUser(email);
-            CustomResponse customResponse = new CustomResponse("Se encontraron estos productos", HttpStatus.ACCEPTED);
-            customResponse.setResponseObject(productEntities);
-            response = new ResponseEntity<>(customResponse, HttpStatus.OK);
+            response.setData(productEntities);
+            messages.add("Se han encontrado los productos con exito");
+            status = HttpStatus.OK;
         } catch (Exception e) {
-            response = new ResponseEntity<>("hubo un error tratando de encontrar los productos", HttpStatus.BAD_REQUEST);
+            messages.add(e.getMessage());
         }
-        return response;
+        response.setMessage(messages);
+        response.setStatus(status);
+        responseEntity = new ResponseEntity<>(response,status);
+        return responseEntity;
     }
     @PatchMapping("/inactive/{id}")
     public ResponseEntity<Object> inactive(@PathVariable("id") Integer accountId){

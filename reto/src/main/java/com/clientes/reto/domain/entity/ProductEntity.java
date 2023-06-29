@@ -12,11 +12,6 @@ import java.util.List;
 @Table(name = "product")
 public class ProductEntity {
 
-
-    @Column(name = "product_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
     @Column(name = "account_type")
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
@@ -38,7 +33,7 @@ public class ProductEntity {
     @Column(name = "available_balance", nullable = false)
     private  Double availableBalance;
 
-    @Column(name = "excenta_gmf", nullable = false)
+    @Column(name = "excenta_gmf")
     private Boolean excentaGMF;
 
     @Column(name = "cration_date", nullable = false, columnDefinition = "DATETIME")
@@ -47,7 +42,7 @@ public class ProductEntity {
     @Column(name = "update_date", nullable = false, columnDefinition = "DATETIME")
     private LocalDateTime updateDate;
 
-    @Column(name = "id_client")
+    @Column(name = "id_client", nullable = false)
     private  String idClient;
 
 
@@ -56,11 +51,10 @@ public class ProductEntity {
     private List<TransactionEntity> transactions;
 
     @ManyToOne
-    @JoinColumn(name = "id_client", insertable = false, updatable = false)
-    private  String client;
+    @JoinColumn(name = "client", insertable = false, updatable = false)
+    private  PersonEntity client;
 
-    public ProductEntity(Integer id, AccountType accountType, Integer producNumber, State state, Double balance, Boolean deaudas, Double availableBalance, Boolean excentaGMF, LocalDateTime creationDate, LocalDateTime updateDate, String idClient, List<TransactionEntity> transactions, String client) {
-        this.id = id;
+    public ProductEntity(AccountType accountType, Integer producNumber, State state, Double balance, Boolean deaudas, Double availableBalance, Boolean excentaGMF, LocalDateTime creationDate, LocalDateTime updateDate, String idClient, List<TransactionEntity> transactions, PersonEntity client) {
         this.accountType = accountType;
         this.producNumber = producNumber;
         this.state = state;
@@ -76,14 +70,6 @@ public class ProductEntity {
     }
 
     public ProductEntity() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public AccountType getAccountType() {
@@ -174,11 +160,11 @@ public class ProductEntity {
         this.transactions = transactions;
     }
 
-    public String getClient() {
+    public PersonEntity getClient() {
         return client;
     }
 
-    public void setClient(String client) {
+    public void setClient(PersonEntity client) {
         this.client = client;
     }
 }

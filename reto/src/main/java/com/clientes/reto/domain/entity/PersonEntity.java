@@ -1,15 +1,15 @@
 package com.clientes.reto.domain.entity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+
+import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "person")
 public class PersonEntity {
-    @Id
-    @Column(name = "person_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     @Column(name = "id_type", nullable = false)
     private String idType;
@@ -23,22 +23,25 @@ public class PersonEntity {
     @Column(nullable = false)
     private String lastname;
 
-
+    @Id
     @Column(nullable = false)
     private String email;
 
-    @Column(name = "birth_day", columnDefinition = "DATETIME")
-    private LocalDateTime birthDay;
+    @Column(name = "birth_day")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date birthDay;
 
     @Column(nullable = false)
     private Integer age;
 
 
-    @Column(name = "creation_date", nullable = false, columnDefinition = "DATETIME")
-    private LocalDateTime creationDate;
+    @Column(name = "creation_date", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date creationDate;
 
-    @Column(name = "update_date", nullable = false, columnDefinition = "DATETIME")
-    private  LocalDateTime updateDate;
+    @Column(name = "update_date", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private  Date updateDate;
 
     @OneToMany(mappedBy = "client")
     private List<ProductEntity> products;
@@ -46,7 +49,7 @@ public class PersonEntity {
     public PersonEntity() {
     }
 
-    public PersonEntity( String idType, Integer idNumber, String name, String lastname, String email, LocalDateTime birthDay, Integer age, LocalDateTime creationDate, LocalDateTime updateDate, List<ProductEntity> products) {
+    public PersonEntity( String idType, Integer idNumber, String name, String lastname, String email, Date birthDay, Integer age) {
         this.idType = idType;
         this.idNumber = idNumber;
         this.name = name;
@@ -54,14 +57,6 @@ public class PersonEntity {
         this.email = email;
         this.birthDay = birthDay;
         this.age = age;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getIdType() {
@@ -104,11 +99,11 @@ public class PersonEntity {
         this.email = email;
     }
 
-    public LocalDateTime getBirthDay() {
+    public Date getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(LocalDateTime birthDay) {
+    public void setBirthDay(Date birthDay) {
         this.birthDay = birthDay;
     }
 
@@ -120,19 +115,19 @@ public class PersonEntity {
         this.age = age;
     }
 
-    public LocalDateTime getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public Date getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
 

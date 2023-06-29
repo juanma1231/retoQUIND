@@ -1,4 +1,4 @@
-package com.clientes.reto.response;
+package com.clientes.reto.utils;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

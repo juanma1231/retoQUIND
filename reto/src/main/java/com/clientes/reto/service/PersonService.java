@@ -4,12 +4,14 @@ import com.clientes.reto.domain.entity.PersonEntity;
 import com.clientes.reto.domain.entity.ProductEntity;
 import com.clientes.reto.repository.PersonRepository;
 import com.clientes.reto.repository.ProductRepository;
-import com.clientes.reto.response.CustomException;
+import com.clientes.reto.utils.CustomException;
+import com.clientes.reto.utils.Fecha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.clientes.reto.response.UtilString;
+import com.clientes.reto.utils.UtilString;
 
-import java.time.LocalDateTime;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 
@@ -26,13 +28,19 @@ public class PersonService{
     }
 
     public  PersonEntity save(PersonEntity personEntity){
-        if (personEntity.getAge() >= 18){
-            personEntity.setCreationDate(LocalDateTime.now());
-            personEntity.setUpdateDate(LocalDateTime.now());
-            personEntity.setBirthDay(LocalDateTime.now());
-            return personRepository.save(personEntity);
-        }
-        else throw new CustomException("Debe ser mayor a 18 años");
+        PersonEntity person = personRepository.findOneById(personEntity.getEmail());
+        Date fechaActual = new Date();
+        personEntity.setAge(Fecha.calcularEdad(personEntity.getBirthDay()));
+        if(person==null){
+            if (personEntity.getAge() >= 18){
+
+                personEntity.setCreationDate(fechaActual);
+                personEntity.setUpdateDate(fechaActual);
+                return personRepository.save(personEntity);
+            }
+            else throw new CustomException("Debe ser mayor a 18 años");
+        }else throw new CustomException("El usuario ya existe");
+
     }
     public void delete(String email){
         List<ProductEntity> products = productRepository.finByUser(email);
@@ -56,8 +64,9 @@ public class PersonService{
         person1.setLastname(UtilString.isEmptyOrNull(person.getLastname()) ? person1.getLastname() : person.getLastname());
         person1.setIdType(UtilString.isEmptyOrNull(person.getIdType()) ? person1.getIdType() : person.getIdType());
         person1.setIdNumber(UtilString.isEmptyOrNull(person.getIdNumber()) ? person1.getIdNumber() : person.getIdNumber());
-
-        person1.setUpdateDate(LocalDateTime.now());
+        person1.setProducts(person.getProducts());
+        Date fechaActual = new Date();
+        person1.setUpdateDate(fechaActual);
         return personRepository.save(person1);
     }
 }

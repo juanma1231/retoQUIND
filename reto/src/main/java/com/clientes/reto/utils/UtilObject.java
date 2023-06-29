@@ -1,4 +1,4 @@
-package com.clientes.reto.response;
+package com.clientes.reto.utils;
 
 public class UtilObject {
     private static UtilObject instance = new UtilObject();

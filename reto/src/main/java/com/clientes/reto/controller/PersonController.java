@@ -1,9 +1,9 @@
 package com.clientes.reto.controller;
 
 import com.clientes.reto.domain.entity.PersonEntity;
-import com.clientes.reto.response.CustomException;
-import com.clientes.reto.response.CustomResponse;
-import com.clientes.reto.response.Response;
+import com.clientes.reto.utils.CustomException;
+import com.clientes.reto.utils.CustomResponse;
+import com.clientes.reto.utils.Response;
 import com.clientes.reto.service.PersonService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,11 @@ import java.util.stream.StreamSupport;
 public class PersonController {
     @Autowired
     private PersonService personService;
+
+    @GetMapping("/{mail}")
+    public PersonEntity getByUserId(@PathVariable("mail") String mail){
+        return personService.findById(mail);
+    }
 
     @GetMapping()
     public ResponseEntity<Response<PersonEntity>> getAllUsers(){
@@ -45,19 +51,24 @@ public class PersonController {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> createUser(@RequestBody PersonEntity personEntity) {
-        ResponseEntity<Object> response;
+    public ResponseEntity<Response<PersonEntity>> createUser(@RequestBody PersonEntity personEntity) {
+        ResponseEntity<Response<PersonEntity>> responseEntity;
+        List<String> messages = new ArrayList<>();
+        Response<PersonEntity> response = new Response<>();
+        List<PersonEntity> data= new ArrayList<>();
+        HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            personService.save(personEntity);
-            CustomResponse customResponse = new CustomResponse("El usuario fué creado", HttpStatus.OK);
-            customResponse.setResponseObject(personEntity);
-            response = new ResponseEntity<>(customResponse, HttpStatus.OK);
-
-
+            data.add(personService.save(personEntity));
+            response.setData(data);
+            messages.add("Usuario creado con exito");
+            status = HttpStatus.OK;
         } catch (CustomException e) {
-            response = new ResponseEntity<>("Tenemos un error tratando de crear el usaurio", HttpStatus.BAD_REQUEST);
+            messages.add(e.getMessage());
         }
-        return response;
+        response.setStatus(status);
+        response.setMessage(messages);
+        responseEntity = new ResponseEntity<>(response,status);
+        return responseEntity;
     }
 
     @DeleteMapping("/{mail}")

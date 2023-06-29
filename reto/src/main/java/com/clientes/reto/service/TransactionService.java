@@ -5,7 +5,7 @@ import com.clientes.reto.domain.entity.TransactionEntity;
 import com.clientes.reto.domain.enums.AccountType;
 
 import com.clientes.reto.repository.TransactionRepository;
-import com.clientes.reto.response.CustomException;
+import com.clientes.reto.utils.CustomException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

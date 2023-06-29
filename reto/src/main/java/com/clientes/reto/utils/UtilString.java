@@ -1,4 +1,4 @@
-package com.clientes.reto.response;
+package com.clientes.reto.utils;
 
 public final class UtilString {
     public static final String EMPTY = "";
