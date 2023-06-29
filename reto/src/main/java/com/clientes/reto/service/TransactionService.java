@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,7 +37,8 @@ public class TransactionService {
                     if (productEntity.getAvailableBalance() - monto < 0){
                         productEntity.setDeaudas(true);
                     }
-                    productEntity.setUpdateDate(LocalDateTime.now());
+                    Date currentDate = new Date();
+                    productEntity.setUpdateDate(currentDate);
                     productService.save(productEntity);
                     return transactionRepository.save(transactionEntity);
                 }else throw new CustomException("No puede sobregirar la cuenta a más de 3 millones");
@@ -54,7 +57,13 @@ public class TransactionService {
             if(product.getAccountType().equals(AccountType.CORRIENTE) && product.getBalance()>=0){
                 product.setDeaudas(false);
             }
-            product.setUpdateDate(LocalDateTime.now());
+            List<TransactionEntity> transactionEntities = product.getTransactions();
+            transactionEntities.add(transactionEntity);
+            product.setTransactions(transactionEntities);
+            System.out.println("Consignando");
+            System.out.println(product.getTransactions());
+            Date currentDate = new Date();
+            product.setUpdateDate(currentDate);
             productService.save(product);
             return transactionRepository.save(transactionEntity);
         }else throw new CustomException("La cuenta no existe");
@@ -78,8 +87,9 @@ public class TransactionService {
                     } else if (product.getAccountType().equals(AccountType.CORRIENTE) && product.getBalance()>=0) {
                         product.setDeaudas(false);
                     }
-                    product.setUpdateDate(LocalDateTime.now());
-                    product1.setUpdateDate(LocalDateTime.now());
+                    Date currentDate = new Date();
+                    product.setUpdateDate(currentDate);
+                    product1.setUpdateDate(currentDate);
                     productService.save(product);
                     productService.save(product1);
                     return transactionRepository.save(transactionEntity);

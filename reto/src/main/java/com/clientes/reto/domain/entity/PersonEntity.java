@@ -43,8 +43,7 @@ public class PersonEntity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private  Date updateDate;
 
-    @OneToMany(mappedBy = "client")
-    private List<ProductEntity> products;
+
 
     public PersonEntity() {
     }
@@ -131,11 +130,5 @@ public class PersonEntity {
         this.updateDate = updateDate;
     }
 
-    public List<ProductEntity> getProducts() {
-        return products;
-    }
 
-    public void setProducts(List<ProductEntity> products) {
-        this.products = products;
-    }
 }

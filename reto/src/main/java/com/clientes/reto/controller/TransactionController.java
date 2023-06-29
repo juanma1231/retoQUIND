@@ -1,15 +1,15 @@
 package com.clientes.reto.controller;
-
 import com.clientes.reto.domain.entity.TransactionEntity;
 import com.clientes.reto.domain.enums.TransactionsEnum;
 import com.clientes.reto.utils.CustomException;
-import com.clientes.reto.utils.CustomResponse;
 import com.clientes.reto.service.TransactionService;
+import com.clientes.reto.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,60 +20,84 @@ public class TransactionController {
     TransactionService transactionService;
 
     @PostMapping("/make")
-    public ResponseEntity<Object> crear(@RequestBody TransactionEntity transactionEntity){
-        ResponseEntity<Object> response;
+    public ResponseEntity<Response<TransactionEntity>> crear(@RequestBody TransactionEntity transactionEntity){
+        ResponseEntity<Response<TransactionEntity>> responseEntity;
+        List<String> messages = new ArrayList<>();
+        List<TransactionEntity> data = new ArrayList<>();
+        Response<TransactionEntity> response = new Response<>();
+        HttpStatus status= HttpStatus.BAD_REQUEST;
 
         if(transactionEntity.getTransactionType().equals(TransactionsEnum.CONSIGNACION)){
             try {
-                TransactionEntity transaction = transactionService.consignar(transactionEntity);
-                CustomResponse customResponse = new CustomResponse("Consifacion realizada con exito", HttpStatus.OK);
-                customResponse.setResponseObject(transaction);
-                response = new ResponseEntity<>(customResponse, HttpStatus.OK);
+                data.add(transactionService.consignar(transactionEntity));
+                response.setData(data);
+                messages.add("Consignacion realizada con exito");
+                status = HttpStatus.OK;
             } catch (CustomException e) {
-                response = new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+                messages.add(e.getMessage());
             }
-            return response;
+            response.setStatus(status);
+            response.setMessage(messages);
+            responseEntity = new ResponseEntity<>(response,status);
+            return responseEntity;
 
         } else if (transactionEntity.getTransactionType().equals(TransactionsEnum.RETIRO)) {
             try {
-                TransactionEntity transaction = transactionService.retirar(transactionEntity);
-                CustomResponse customResponse = new CustomResponse("Consifacion realizada con exito", HttpStatus.OK);
-                customResponse.setResponseObject(transaction);
-                response = new ResponseEntity<>(customResponse, HttpStatus.OK);
+                data.add(transactionService.retirar(transactionEntity));
+                status = HttpStatus.OK;
+                messages.add("Retiro realizado con exito");
             } catch (CustomException e) {
-                response = new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+                messages.add(e.getMessage());
             }
-            return response;
+            response.setStatus(status);
+            response.setMessage(messages);
+            responseEntity = new ResponseEntity<>(response,status);
+            return responseEntity;
 
         }
-        response = new ResponseEntity<>("No se encontrè el tipo de transaccion", HttpStatus.BAD_REQUEST);
-
-        return response;
+        messages.add("No se pudo realizar la operacion");
+        response.setMessage(messages);
+        response.setStatus(status);
+        responseEntity = new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return responseEntity;
     }
     @PostMapping("/transferencia/{accountid}")
-    public ResponseEntity<Object> tranferir(@RequestBody TransactionEntity transactionEntity, @PathVariable("accountid") Integer accountId){
-        ResponseEntity<Object> response;
+    public ResponseEntity<Response<TransactionEntity>> tranferir(@RequestBody TransactionEntity transactionEntity, @PathVariable("accountid") Integer accountId){
+        ResponseEntity<Response<TransactionEntity>> responseEntity;
+        List<String> messages = new ArrayList<>();
+        List<TransactionEntity> data = new ArrayList<>();
+        Response<TransactionEntity> response = new Response<>();
+        HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            TransactionEntity transaction = transactionService.doATransference(accountId, transactionEntity);
-            CustomResponse customResponse = new CustomResponse("Transferencia exitosa", HttpStatus.OK);
-            customResponse.setResponseObject(transaction);
-            response = new ResponseEntity<>(customResponse, HttpStatus.OK);
+            data.add(transactionService.doATransference(accountId, transactionEntity));
+            messages.add("Transferencia exitosa");
+            status = HttpStatus.OK;
         } catch (CustomException e) {
-            response = new ResponseEntity<>(e, HttpStatus.OK);
+            messages.add(e.getMessage());
         }
-        return response;
+        response.setStatus(status);
+        response.setMessage(messages);
+        response.setData(data);
+        responseEntity = new ResponseEntity<>(response,status);
+        return  responseEntity;
     }
     @GetMapping("/transactions/{id}")
-    public ResponseEntity<Object> finById(@PathVariable("id") Integer accountId){
-        ResponseEntity<Object> response;
+    public ResponseEntity<Response<TransactionEntity>> finById(@PathVariable("id") Integer accountId){
+        ResponseEntity<Response<TransactionEntity>> responseEntity;
+        List<String> messages = new ArrayList<>();
+        Response<TransactionEntity> response = new Response<>();
+        HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
             List<TransactionEntity> transactionEntityList = transactionService.findByAccountId(accountId);
-            CustomResponse customResponse = new CustomResponse("Las transacciones han sido encontradsas");
-            customResponse.setResponseObject(transactionEntityList);
-            response = new ResponseEntity<>(customResponse,HttpStatus.OK);
+            response.setData(transactionEntityList);
+            status = HttpStatus.OK;
+            messages.add("Lista consultada con exito");
         } catch (Exception e) {
-            response= new ResponseEntity<>("Hay un error tratando de econtrar las transacciones", HttpStatus.BAD_REQUEST);
+            messages.add(e.getMessage());
         }
-        return response;
+        response.setStatus(status);
+        response.setMessage(messages);
+        responseEntity = new ResponseEntity<>(response,status);
+        return responseEntity;
     }
 }

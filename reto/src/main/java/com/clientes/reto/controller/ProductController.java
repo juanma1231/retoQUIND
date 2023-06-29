@@ -3,7 +3,7 @@ package com.clientes.reto.controller;
 import com.clientes.reto.domain.entity.PersonEntity;
 import com.clientes.reto.domain.entity.ProductEntity;
 import com.clientes.reto.utils.CustomException;
-import com.clientes.reto.utils.CustomResponse;
+
 import com.clientes.reto.utils.Response;
 import com.clientes.reto.service.PersonService;
 import com.clientes.reto.service.ProductService;
@@ -34,10 +34,7 @@ public class ProductController {
         try {
             PersonEntity personEntity = personService.findById(product.getIdClient());
             product.setClient(personEntity);
-            List<ProductEntity> productEntities = personEntity.getProducts();
-            productEntities.add(product);
-            personEntity.setProducts(productEntities);
-
+            //personService.save(personEntity);
             data.add(productService.create(product));
             response.setData(data);
             messages.add("Producto creado con exito");
@@ -72,28 +69,48 @@ public class ProductController {
         return responseEntity;
     }
     @PatchMapping("/inactive/{id}")
-    public ResponseEntity<Object> inactive(@PathVariable("id") Integer accountId){
-        ResponseEntity<Object> response;
+    public ResponseEntity<Response<ProductEntity>> inactive(@PathVariable("id") Integer accountId){
+        ResponseEntity<Response<ProductEntity>> responseEntity;
+        List<String> messages = new ArrayList<>();
+        List<ProductEntity> data = new ArrayList<>();
+        Response<ProductEntity> response = new Response<>();
+        HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            productService.inactive(accountId);
-            CustomResponse customResponse = new CustomResponse("se cambiò el estado de el producto con exito", HttpStatus.ACCEPTED);
-            response = new ResponseEntity<>(customResponse, HttpStatus.OK);
+            data.add(productService.inactive(accountId));
+            messages.add("Cuenta inactivada con exito");
+            status = HttpStatus.OK;
         } catch (Exception e) {
-            response = new ResponseEntity<>("hubo un error tratando de encontrar el producto", HttpStatus.BAD_REQUEST);
+            messages.add(e.getMessage());
         }
-        return response;
+        response.setMessage(messages);
+        response.setStatus(status);
+        responseEntity = new ResponseEntity<>(response,status);
+        return  responseEntity;
     }
     @PatchMapping("/cancel/{id}")
-    public ResponseEntity<Object> cancel(@PathVariable("id") Integer accountId){
-        ResponseEntity<Object> response;
+    public ResponseEntity<Response<ProductEntity>> cancel(@PathVariable("id") Integer accountId){
+        ResponseEntity<Response<ProductEntity>> responseEntity;
+        List<String> messages = new ArrayList<>();
+        List<ProductEntity> data = new ArrayList<>();
+        Response<ProductEntity> response = new Response<>();
+        HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            productService.cancelar(accountId);
-            CustomResponse customResponse = new CustomResponse("se cambiò el estado de el producto con exito", HttpStatus.ACCEPTED);
-            response = new ResponseEntity<>(customResponse, HttpStatus.OK);
+            data.add(productService.cancelar(accountId));
+            response.setData(data);
+            status = HttpStatus.OK;
+            messages.add("Cuenta cancelada con exito");
+
         } catch (Exception e) {
-            response = new ResponseEntity<>("hubo un error tratando de encontrar el producto", HttpStatus.BAD_REQUEST);
+            messages.add(e.getMessage());
         }
-        return response;
+        response.setMessage(messages);
+        response.setStatus(status);
+        responseEntity = new ResponseEntity<>(response,status);
+        return responseEntity;
+    }
+    @GetMapping("/all")
+    public Iterable<ProductEntity> getAll(){
+        return productService.getALl();
     }
 
 }

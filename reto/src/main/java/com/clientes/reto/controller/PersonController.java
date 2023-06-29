@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,7 +58,7 @@ public class PersonController {
         List<PersonEntity> data= new ArrayList<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            data.add(personService.save(personEntity));
+            data.add(personService.create(personEntity));
             response.setData(data);
             messages.add("Usuario creado con exito");
             status = HttpStatus.OK;
@@ -72,17 +72,22 @@ public class PersonController {
     }
 
     @DeleteMapping("/{mail}")
-    public ResponseEntity<Object> deleteUser(@PathVariable("mail") String mail){
-        ResponseEntity<Object> response;
+    public ResponseEntity<Response<PersonEntity>> deleteUser(@PathVariable("mail") String mail){
+        ResponseEntity<Response<PersonEntity>> responseEntity;
+        List<String> messages = new ArrayList<>();
+        Response<PersonEntity> response = new Response<>();
+        HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
             personService.delete(mail);
-            CustomResponse customResponse = new CustomResponse("Usuario eliminado con exito", HttpStatus.OK);
-            customResponse.setResponseObject(mail);
-            response = new ResponseEntity<>(customResponse, HttpStatus.OK);
+            messages.add("usuario eliminado con exito");
+            status = HttpStatus.OK;
         } catch (CustomException e) {
-            response = new ResponseEntity<>(e,HttpStatus.BAD_REQUEST);
+            messages.add(e.getMessage());
         }
-        return response;
+        response.setStatus(status);
+        response.setMessage(messages);
+        responseEntity = new ResponseEntity<>(response,status);
+        return responseEntity;
     }
     @PatchMapping("/user/{email}")
     public ResponseEntity<Object> updateUser(@PathVariable("email") String email, @RequestBody PersonEntity personEntity){

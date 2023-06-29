@@ -1,11 +1,10 @@
 package com.clientes.reto.domain.entity;
 import com.clientes.reto.domain.enums.AccountType;
 import com.clientes.reto.domain.enums.State;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
-
-
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -36,11 +35,13 @@ public class ProductEntity {
     @Column(name = "excenta_gmf")
     private Boolean excentaGMF;
 
-    @Column(name = "cration_date", nullable = false, columnDefinition = "DATETIME")
-    private LocalDateTime creationDate;
+    @Column(name = "cration_date", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date creationDate;
 
-    @Column(name = "update_date", nullable = false, columnDefinition = "DATETIME")
-    private LocalDateTime updateDate;
+    @Column(name = "update_date", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date updateDate;
 
     @Column(name = "id_client", nullable = false)
     private  String idClient;
@@ -54,7 +55,7 @@ public class ProductEntity {
     @JoinColumn(name = "client", insertable = false, updatable = false)
     private  PersonEntity client;
 
-    public ProductEntity(AccountType accountType, Integer producNumber, State state, Double balance, Boolean deaudas, Double availableBalance, Boolean excentaGMF, LocalDateTime creationDate, LocalDateTime updateDate, String idClient, List<TransactionEntity> transactions, PersonEntity client) {
+    public ProductEntity(AccountType accountType, Integer producNumber, State state, Double balance, Boolean deaudas, Double availableBalance, Boolean excentaGMF, Date creationDate, Date updateDate, String idClient, List<TransactionEntity> transactions, PersonEntity client) {
         this.accountType = accountType;
         this.producNumber = producNumber;
         this.state = state;
@@ -128,19 +129,19 @@ public class ProductEntity {
         this.excentaGMF = excentaGMF;
     }
 
-    public LocalDateTime getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
-    public LocalDateTime getUpdateDate() {
+    public Date getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(LocalDateTime updateDate) {
+    public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
 

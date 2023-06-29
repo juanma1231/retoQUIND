@@ -12,7 +12,7 @@ public interface ProductRepository extends CrudRepository<ProductEntity, Integer
     @Query(nativeQuery = true, value = "SELECT * FROM product p WHERE p.id_client = ?1")
     List<ProductEntity> finByUser(String email);
 
-    @Query(nativeQuery = true, value = "SELEC * FROM product p WHERE p.product_number = ?1")
+    @Query(nativeQuery = true, value = "SELECT * FROM product p WHERE p.product_number = ?1")
     ProductEntity finById(Integer id);
 }
 

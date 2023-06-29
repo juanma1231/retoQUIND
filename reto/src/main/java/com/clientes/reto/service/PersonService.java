@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.clientes.reto.utils.UtilString;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,13 +28,12 @@ public class PersonService{
         return personRepository.findAll();
     }
 
-    public  PersonEntity save(PersonEntity personEntity){
+    public  PersonEntity create(PersonEntity personEntity){
         PersonEntity person = personRepository.findOneById(personEntity.getEmail());
         Date fechaActual = new Date();
         personEntity.setAge(Fecha.calcularEdad(personEntity.getBirthDay()));
         if(person==null){
             if (personEntity.getAge() >= 18){
-
                 personEntity.setCreationDate(fechaActual);
                 personEntity.setUpdateDate(fechaActual);
                 return personRepository.save(personEntity);
@@ -56,7 +56,7 @@ public class PersonService{
         else throw new CustomException("se encontraron deudas en sus cuentas asociadas");
     }
     public  PersonEntity findById(String email){
-        return personRepository.findById(email).orElseThrow(()-> new CustomException("persona no encontrada"));
+        return personRepository.findOneById(email);
     }
     public PersonEntity patch(String email, PersonEntity person){
         PersonEntity person1 = personRepository.findOneById(email);
@@ -64,9 +64,11 @@ public class PersonService{
         person1.setLastname(UtilString.isEmptyOrNull(person.getLastname()) ? person1.getLastname() : person.getLastname());
         person1.setIdType(UtilString.isEmptyOrNull(person.getIdType()) ? person1.getIdType() : person.getIdType());
         person1.setIdNumber(UtilString.isEmptyOrNull(person.getIdNumber()) ? person1.getIdNumber() : person.getIdNumber());
-        person1.setProducts(person.getProducts());
         Date fechaActual = new Date();
         person1.setUpdateDate(fechaActual);
         return personRepository.save(person1);
+    }
+    public PersonEntity save(PersonEntity person){
+        return personRepository.save(person);
     }
 }
