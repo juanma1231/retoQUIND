@@ -1,17 +1,15 @@
-package com.clientes.reto.service;
+package com.clientes.reto.domain.service;
 
-import com.clientes.reto.domain.entity.PersonEntity;
-import com.clientes.reto.domain.entity.ProductEntity;
-import com.clientes.reto.repository.PersonRepository;
-import com.clientes.reto.repository.ProductRepository;
+import com.clientes.reto.persistence.entity.PersonEntity;
+import com.clientes.reto.persistence.entity.ProductEntity;
+import com.clientes.reto.persistence.repository.PersonRepository;
+import com.clientes.reto.persistence.repository.ProductRepository;
 import com.clientes.reto.utils.CustomException;
 import com.clientes.reto.utils.Fecha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.clientes.reto.utils.UtilString;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

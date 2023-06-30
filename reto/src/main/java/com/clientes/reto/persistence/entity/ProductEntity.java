@@ -1,6 +1,6 @@
-package com.clientes.reto.domain.entity;
-import com.clientes.reto.domain.enums.AccountType;
-import com.clientes.reto.domain.enums.State;
+package com.clientes.reto.persistence.entity;
+import com.clientes.reto.persistence.enums.AccountType;
+import com.clientes.reto.persistence.enums.State;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 

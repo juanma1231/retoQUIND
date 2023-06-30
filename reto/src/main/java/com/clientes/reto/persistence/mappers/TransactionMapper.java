@@ -1,7 +1,7 @@
-package com.clientes.reto.domain.mappers;
+package com.clientes.reto.persistence.mappers;
 
 import com.clientes.reto.domain.dto.TransactionDto;
-import com.clientes.reto.domain.entity.TransactionEntity;
+import com.clientes.reto.persistence.entity.TransactionEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

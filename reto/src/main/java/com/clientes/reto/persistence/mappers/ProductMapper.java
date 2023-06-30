@@ -1,7 +1,7 @@
-package com.clientes.reto.domain.mappers;
+package com.clientes.reto.persistence.mappers;
 
 import com.clientes.reto.domain.dto.ProductDto;
-import com.clientes.reto.domain.entity.ProductEntity;
+import com.clientes.reto.persistence.entity.ProductEntity;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

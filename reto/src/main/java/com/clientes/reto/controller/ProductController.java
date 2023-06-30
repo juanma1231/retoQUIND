@@ -1,12 +1,12 @@
 package com.clientes.reto.controller;
 
-import com.clientes.reto.domain.entity.PersonEntity;
-import com.clientes.reto.domain.entity.ProductEntity;
+import com.clientes.reto.persistence.entity.PersonEntity;
+import com.clientes.reto.persistence.entity.ProductEntity;
 import com.clientes.reto.utils.CustomException;
 
 import com.clientes.reto.utils.Response;
-import com.clientes.reto.service.PersonService;
-import com.clientes.reto.service.ProductService;
+import com.clientes.reto.domain.service.PersonService;
+import com.clientes.reto.domain.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

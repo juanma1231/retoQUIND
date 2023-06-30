@@ -1,18 +1,16 @@
-package com.clientes.reto.service;
+package com.clientes.reto.domain.service;
 
-import com.clientes.reto.domain.entity.ProductEntity;
-import com.clientes.reto.domain.entity.TransactionEntity;
-import com.clientes.reto.domain.enums.AccountType;
+import com.clientes.reto.persistence.entity.ProductEntity;
+import com.clientes.reto.persistence.entity.TransactionEntity;
+import com.clientes.reto.persistence.enums.AccountType;
 
-import com.clientes.reto.repository.TransactionRepository;
+import com.clientes.reto.persistence.repository.TransactionRepository;
 import com.clientes.reto.utils.CustomException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import javax.xml.crypto.Data;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 

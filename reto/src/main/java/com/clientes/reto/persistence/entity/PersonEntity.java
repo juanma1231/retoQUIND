@@ -1,4 +1,4 @@
-package com.clientes.reto.domain.entity;
+package com.clientes.reto.persistence.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 

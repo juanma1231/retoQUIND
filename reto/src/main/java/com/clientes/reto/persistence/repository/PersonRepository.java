@@ -1,6 +1,6 @@
-package com.clientes.reto.repository;
+package com.clientes.reto.persistence.repository;
 
-import com.clientes.reto.domain.entity.PersonEntity;
+import com.clientes.reto.persistence.entity.PersonEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

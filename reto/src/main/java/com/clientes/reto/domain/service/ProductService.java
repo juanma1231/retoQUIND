@@ -1,9 +1,9 @@
-package com.clientes.reto.service;
+package com.clientes.reto.domain.service;
 
-import com.clientes.reto.domain.entity.PersonEntity;
-import com.clientes.reto.domain.entity.ProductEntity;
-import com.clientes.reto.domain.enums.State;
-import com.clientes.reto.repository.ProductRepository;
+import com.clientes.reto.persistence.entity.PersonEntity;
+import com.clientes.reto.persistence.entity.ProductEntity;
+import com.clientes.reto.persistence.enums.State;
+import com.clientes.reto.persistence.repository.ProductRepository;
 import com.clientes.reto.utils.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

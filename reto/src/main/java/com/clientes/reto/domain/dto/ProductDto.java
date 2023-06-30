@@ -1,11 +1,7 @@
 package com.clientes.reto.domain.dto;
 
-import com.clientes.reto.domain.enums.AccountType;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.clientes.reto.persistence.enums.AccountType;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 

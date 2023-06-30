@@ -1,4 +1,4 @@
-package com.clientes.reto.domain.enums;
+package com.clientes.reto.persistence.enums;
 
 public enum AccountType {
     AHORROS, CORRIENTE

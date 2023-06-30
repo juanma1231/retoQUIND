@@ -1,6 +1,6 @@
-package com.clientes.reto.domain.entity;
+package com.clientes.reto.persistence.entity;
 
-import com.clientes.reto.domain.enums.TransactionsEnum;
+import com.clientes.reto.persistence.enums.TransactionsEnum;
 import jakarta.persistence.*;
 
 @Entity

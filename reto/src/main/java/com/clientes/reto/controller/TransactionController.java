@@ -1,8 +1,8 @@
 package com.clientes.reto.controller;
-import com.clientes.reto.domain.entity.TransactionEntity;
-import com.clientes.reto.domain.enums.TransactionsEnum;
+import com.clientes.reto.persistence.entity.TransactionEntity;
+import com.clientes.reto.persistence.enums.TransactionsEnum;
 import com.clientes.reto.utils.CustomException;
-import com.clientes.reto.service.TransactionService;
+import com.clientes.reto.domain.service.TransactionService;
 import com.clientes.reto.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
