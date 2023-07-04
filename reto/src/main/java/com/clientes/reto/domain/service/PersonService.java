@@ -1,12 +1,14 @@
 package com.clientes.reto.domain.service;
 
+import com.clientes.reto.domain.dto.PersonDto;
+import com.clientes.reto.domain.dto.ProductDto;
+import com.clientes.reto.domain.repository.IPersonRepository;
+import com.clientes.reto.domain.repository.IProdcutDtoRepository;
 import com.clientes.reto.persistence.entity.PersonEntity;
-import com.clientes.reto.persistence.entity.ProductEntity;
-import com.clientes.reto.persistence.repository.PersonRepository;
-import com.clientes.reto.persistence.repository.ProductRepository;
 import com.clientes.reto.utils.CustomException;
 import com.clientes.reto.utils.Fecha;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import com.clientes.reto.utils.UtilString;
 
@@ -16,57 +18,62 @@ import java.util.List;
 
 @Service
 public class PersonService{
-
     @Autowired
-    private PersonRepository personRepository;
+    @Lazy
+    IProdcutDtoRepository productService;
     @Autowired
-    private ProductRepository productRepository;
+    @Lazy
+    IPersonRepository personRepository;
 
-    public Iterable<PersonEntity> getAllUsers(){
-        return personRepository.findAll();
+
+    public Iterable<PersonDto> getAllUsers(){
+        return personRepository.getAllUsers();
     }
 
-    public  PersonEntity create(PersonEntity personEntity){
-        PersonEntity person = personRepository.findOneById(personEntity.getEmail());
+    public  PersonDto create(PersonDto personDto){
+        PersonDto person = personRepository.finById(personDto.getEmail());
         Date fechaActual = new Date();
-        personEntity.setAge(Fecha.calcularEdad(personEntity.getBirthDay()));
+
+        personDto.setAge(Fecha.calcularEdad(personDto.getBirthDay()));
+
         if(person==null){
-            if (personEntity.getAge() >= 18){
-                personEntity.setCreationDate(fechaActual);
-                personEntity.setUpdateDate(fechaActual);
-                return personRepository.save(personEntity);
+            if (personDto.getAge() >= 18){
+                personDto.setCreationDate(fechaActual);
+                personDto.setUpdateDate(fechaActual);
+                return personRepository.save(personDto);
             }
             else throw new CustomException("Debe ser mayor a 18 años");
         }else throw new CustomException("El usuario ya existe");
 
     }
     public void delete(String email){
-        List<ProductEntity> products = productRepository.finByUser(email);
+        List<ProductDto> products = productService.finByUser(email);
         boolean deudas= false;
-        for(ProductEntity product:products){
-            if (product.getDeaudas()){
+        for(ProductDto product:products){
+            if (product.isDeudas()){
                 deudas= true;
             }
         }
         if(!deudas){
-            personRepository.deleteById(email);
+            personRepository.delete(email);
         }
         else throw new CustomException("se encontraron deudas en sus cuentas asociadas");
     }
-    public  PersonEntity findById(String email){
-        return personRepository.findOneById(email);
+    public  PersonDto findById(String email){
+        return personRepository.finById(email);
     }
-    public PersonEntity patch(String email, PersonEntity person){
-        PersonEntity person1 = personRepository.findOneById(email);
+    public PersonDto patch(String email, PersonEntity person){
+        PersonDto person1 = personRepository.finById(email);
         person1.setName(UtilString.isEmptyOrNull(person.getName()) ? person1.getName() : person.getName());
-        person1.setLastname(UtilString.isEmptyOrNull(person.getLastname()) ? person1.getLastname() : person.getLastname());
+        person1.setLastName(UtilString.isEmptyOrNull(person.getLastname()) ? person1.getLastName() : person.getLastname());
         person1.setIdType(UtilString.isEmptyOrNull(person.getIdType()) ? person1.getIdType() : person.getIdType());
         person1.setIdNumber(UtilString.isEmptyOrNull(person.getIdNumber()) ? person1.getIdNumber() : person.getIdNumber());
         Date fechaActual = new Date();
         person1.setUpdateDate(fechaActual);
         return personRepository.save(person1);
     }
-    public PersonEntity save(PersonEntity person){
+    public PersonDto save(PersonDto person){
+
         return personRepository.save(person);
     }
 }

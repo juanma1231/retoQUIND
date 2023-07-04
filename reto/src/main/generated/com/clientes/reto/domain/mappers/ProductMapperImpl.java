@@ -30,21 +30,11 @@ public class ProductMapperImpl implements ProductMapper {
 
         productDto.setAccountType( productEntity.getAccountType() );
         productDto.setProductNumber( productEntity.getProducNumber() );
-        if ( productEntity.getState() != null ) {
-            productDto.setState( productEntity.getState().name() );
-        }
-        if ( productEntity.getBalance() != null ) {
-            productDto.setBalance( productEntity.getBalance() );
-        }
-        if ( productEntity.getDeaudas() != null ) {
-            productDto.setDeudas( productEntity.getDeaudas() );
-        }
-        if ( productEntity.getAvailableBalance() != null ) {
-            productDto.setAvailableBalance( productEntity.getAvailableBalance() );
-        }
-        if ( productEntity.getExcentaGMF() != null ) {
-            productDto.setExcentaGMF( productEntity.getExcentaGMF() );
-        }
+        productDto.setState( productEntity.getState().name() );
+        productDto.setBalance( productEntity.getBalance() );
+        productDto.setDeudas( productEntity.getDeaudas() );
+        productDto.setAvailableBalance( productEntity.getAvailableBalance() );
+        productDto.setExcentaGMF( productEntity.getExcentaGMF() );
         productDto.setCreationDate( productEntity.getCreationDate() );
         productDto.setUpdateDate( productEntity.getUpdateDate() );
         productDto.setIdClient( productEntity.getIdClient() );
@@ -64,9 +54,7 @@ public class ProductMapperImpl implements ProductMapper {
 
         productEntity.setAccountType( productDto.getAccountType() );
         productEntity.setProducNumber( productDto.getProductNumber() );
-        if ( productDto.getState() != null ) {
-            productEntity.setState( Enum.valueOf( State.class, productDto.getState() ) );
-        }
+        productEntity.setState(productDto.getSate());
         productEntity.setBalance( productDto.getBalance() );
         productEntity.setDeaudas( productDto.isDeudas() );
         productEntity.setAvailableBalance( productDto.getAvailableBalance() );
@@ -89,9 +77,8 @@ public class ProductMapperImpl implements ProductMapper {
 
         transactionDto.setId( transactionEntity.getId() );
         transactionDto.setDescription( transactionEntity.getDescription() );
-        if ( transactionEntity.getMonto() != null ) {
-            transactionDto.setMonto( transactionEntity.getMonto() );
-        }
+        transactionDto.setMonto( transactionEntity.getMonto() );
+
 
         return transactionDto;
     }

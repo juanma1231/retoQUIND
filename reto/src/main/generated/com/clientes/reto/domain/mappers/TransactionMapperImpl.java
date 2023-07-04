@@ -30,13 +30,9 @@ public class TransactionMapperImpl implements TransactionMapper {
         TransactionDto transactionDto = new TransactionDto();
 
         transactionDto.setId( transactionEntity.getId() );
-        if ( transactionEntity.getTransactionType() != null ) {
-            transactionDto.setTransaccionType( transactionEntity.getTransactionType().name() );
-        }
+        transactionDto.setTransaccionType(transactionEntity.setTransaccionType );
         transactionDto.setDescription( transactionEntity.getDescription() );
-        if ( transactionEntity.getMonto() != null ) {
-            transactionDto.setMonto( transactionEntity.getMonto() );
-        }
+        transactionDto.setMonto( transactionEntity.getMonto() );
         transactionDto.setProductDto( productEntityToProductDto( transactionEntity.getProductEntity() ) );
 
         return transactionDto;
@@ -51,9 +47,7 @@ public class TransactionMapperImpl implements TransactionMapper {
         TransactionEntity transactionEntity = new TransactionEntity();
 
         transactionEntity.setId( transactionDto.getId() );
-        if ( transactionDto.getTransaccionType() != null ) {
-            transactionEntity.setTransactionType( Enum.valueOf( TransactionsEnum.class, transactionDto.getTransaccionType() ) );
-        }
+        transactionEntity.setTransactionType( Enum.valueOf( TransactionsEnum.class, transactionDto.getTransaccionType() ) );
         transactionEntity.setDescription( transactionDto.getDescription() );
         transactionEntity.setMonto( transactionDto.getMonto() );
         transactionEntity.setProductEntity( productDtoToProductEntity( transactionDto.getProductDto() ) );
@@ -101,18 +95,10 @@ public class TransactionMapperImpl implements TransactionMapper {
         ProductDto productDto = new ProductDto();
 
         productDto.setAccountType( productEntity.getAccountType() );
-        if ( productEntity.getState() != null ) {
-            productDto.setState( productEntity.getState().name() );
-        }
-        if ( productEntity.getBalance() != null ) {
-            productDto.setBalance( productEntity.getBalance() );
-        }
-        if ( productEntity.getAvailableBalance() != null ) {
-            productDto.setAvailableBalance( productEntity.getAvailableBalance() );
-        }
-        if ( productEntity.getExcentaGMF() != null ) {
-            productDto.setExcentaGMF( productEntity.getExcentaGMF() );
-        }
+        productDto.setState( productEntity.getState().name() );
+        productDto.setBalance( productEntity.getBalance() );
+        productDto.setAvailableBalance( productEntity.getAvailableBalance() );
+        productDto.setExcentaGMF( productEntity.getExcentaGMF() );
         productDto.setCreationDate( productEntity.getCreationDate() );
         productDto.setUpdateDate( productEntity.getUpdateDate() );
         productDto.setIdClient( productEntity.getIdClient() );
@@ -162,9 +148,7 @@ public class TransactionMapperImpl implements TransactionMapper {
         ProductEntity productEntity = new ProductEntity();
 
         productEntity.setAccountType( productDto.getAccountType() );
-        if ( productDto.getState() != null ) {
-            productEntity.setState( Enum.valueOf( State.class, productDto.getState() ) );
-        }
+        productEntity.setState(productDto.getState() );
         productEntity.setBalance( productDto.getBalance() );
         productEntity.setAvailableBalance( productDto.getAvailableBalance() );
         productEntity.setExcentaGMF( productDto.isExcentaGMF() );

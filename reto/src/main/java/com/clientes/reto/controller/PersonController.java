@@ -1,5 +1,6 @@
 package com.clientes.reto.controller;
 
+import com.clientes.reto.domain.dto.PersonDto;
 import com.clientes.reto.persistence.entity.PersonEntity;
 import com.clientes.reto.utils.CustomException;
 import com.clientes.reto.utils.CustomResponse;
@@ -24,18 +25,18 @@ public class PersonController {
     private PersonService personService;
 
     @GetMapping("/{mail}")
-    public PersonEntity getByUserId(@PathVariable("mail") String mail){
+    public PersonDto getByUserId(@PathVariable("mail") String mail){
         return personService.findById(mail);
     }
 
     @GetMapping()
-    public ResponseEntity<Response<PersonEntity>> getAllUsers(){
-        ResponseEntity<Response<PersonEntity>> response;
+    public ResponseEntity<Response<PersonDto>> getAllUsers(){
+        ResponseEntity<Response<PersonDto>> response;
         List<String> messages = new ArrayList<>();
-        Response<PersonEntity> response1 = new Response<>();
+        Response<PersonDto> response1 = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            List<PersonEntity> users = StreamSupport.stream(personService.getAllUsers().spliterator(), false)
+            List<PersonDto> users = StreamSupport.stream(personService.getAllUsers().spliterator(), false)
                     .collect(Collectors.toList());
             response1.setData(users);
             messages.add("OK");
@@ -51,14 +52,14 @@ public class PersonController {
     }
 
     @PostMapping()
-    public ResponseEntity<Response<PersonEntity>> createUser(@RequestBody PersonEntity personEntity) {
-        ResponseEntity<Response<PersonEntity>> responseEntity;
+    public ResponseEntity<Response<PersonDto>> createUser(@RequestBody PersonDto personDto) {
+        ResponseEntity<Response<PersonDto>> responseEntity;
         List<String> messages = new ArrayList<>();
-        Response<PersonEntity> response = new Response<>();
-        List<PersonEntity> data= new ArrayList<>();
+        Response<PersonDto> response = new Response<>();
+        List<PersonDto> data= new ArrayList<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            data.add(personService.create(personEntity));
+            data.add(personService.create(personDto));
             response.setData(data);
             messages.add("Usuario creado con exito");
             status = HttpStatus.OK;
@@ -72,10 +73,10 @@ public class PersonController {
     }
 
     @DeleteMapping("/{mail}")
-    public ResponseEntity<Response<PersonEntity>> deleteUser(@PathVariable("mail") String mail){
-        ResponseEntity<Response<PersonEntity>> responseEntity;
+    public ResponseEntity<Response<PersonDto>> deleteUser(@PathVariable("mail") String mail){
+        ResponseEntity<Response<PersonDto>> responseEntity;
         List<String> messages = new ArrayList<>();
-        Response<PersonEntity> response = new Response<>();
+        Response<PersonDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
             personService.delete(mail);
@@ -93,7 +94,7 @@ public class PersonController {
     public ResponseEntity<Object> updateUser(@PathVariable("email") String email, @RequestBody PersonEntity personEntity){
         ResponseEntity<Object> response;
         try {
-            PersonEntity person = personService.patch(email, personEntity);
+            PersonDto person = personService.patch(email, personEntity);
             CustomResponse customResponse = new CustomResponse("Usuario actulizado con exito", HttpStatus.OK);
             customResponse.setResponseObject(person);
             response = new ResponseEntity<>(customResponse, HttpStatus.OK);

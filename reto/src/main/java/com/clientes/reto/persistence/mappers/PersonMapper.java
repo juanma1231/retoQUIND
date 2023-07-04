@@ -7,6 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface PersonMapper {
 
@@ -22,6 +24,8 @@ public interface PersonMapper {
             @Mapping(source ="idNumber" , target ="idNumber")
     })
     PersonDto toPersonDto(PersonEntity personEntity);
+
+    List<PersonDto> toPeople(List<PersonEntity> personEntities);
 
     @InheritInverseConfiguration
     PersonEntity toPersonEntity(PersonDto personDto);

@@ -1,4 +1,5 @@
 package com.clientes.reto.controller;
+import com.clientes.reto.domain.dto.TransactionDto;
 import com.clientes.reto.persistence.entity.TransactionEntity;
 import com.clientes.reto.persistence.enums.TransactionsEnum;
 import com.clientes.reto.utils.CustomException;
@@ -20,14 +21,14 @@ public class TransactionController {
     TransactionService transactionService;
 
     @PostMapping("/make")
-    public ResponseEntity<Response<TransactionEntity>> crear(@RequestBody TransactionEntity transactionEntity){
-        ResponseEntity<Response<TransactionEntity>> responseEntity;
+    public ResponseEntity<Response<TransactionDto>> crear(@RequestBody TransactionDto transactionEntity){
+        ResponseEntity<Response<TransactionDto>> responseEntity;
         List<String> messages = new ArrayList<>();
-        List<TransactionEntity> data = new ArrayList<>();
-        Response<TransactionEntity> response = new Response<>();
+        List<TransactionDto> data = new ArrayList<>();
+        Response<TransactionDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
 
-        if(transactionEntity.getTransactionType().equals(TransactionsEnum.CONSIGNACION)){
+        if(transactionEntity.getTransaccionType().equals(TransactionsEnum.CONSIGNACION)){
             try {
                 data.add(transactionService.consignar(transactionEntity));
                 response.setData(data);
@@ -41,7 +42,7 @@ public class TransactionController {
             responseEntity = new ResponseEntity<>(response,status);
             return responseEntity;
 
-        } else if (transactionEntity.getTransactionType().equals(TransactionsEnum.RETIRO)) {
+        } else if (transactionEntity.getTransaccionType().equals(TransactionsEnum.RETIRO)) {
             try {
                 data.add(transactionService.retirar(transactionEntity));
                 status = HttpStatus.OK;
@@ -62,14 +63,14 @@ public class TransactionController {
         return responseEntity;
     }
     @PostMapping("/transferencia/{accountid}")
-    public ResponseEntity<Response<TransactionEntity>> tranferir(@RequestBody TransactionEntity transactionEntity, @PathVariable("accountid") Integer accountId){
-        ResponseEntity<Response<TransactionEntity>> responseEntity;
+    public ResponseEntity<Response<TransactionDto>> tranferir(@RequestBody TransactionDto transactionDto, @PathVariable("accountid") Integer accountId){
+        ResponseEntity<Response<TransactionDto>> responseEntity;
         List<String> messages = new ArrayList<>();
-        List<TransactionEntity> data = new ArrayList<>();
-        Response<TransactionEntity> response = new Response<>();
+        List<TransactionDto> data = new ArrayList<>();
+        Response<TransactionDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            data.add(transactionService.doATransference(accountId, transactionEntity));
+            data.add(transactionService.doATransference(accountId, transactionDto));
             messages.add("Transferencia exitosa");
             status = HttpStatus.OK;
         } catch (CustomException e) {
@@ -82,13 +83,13 @@ public class TransactionController {
         return  responseEntity;
     }
     @GetMapping("/transactions/{id}")
-    public ResponseEntity<Response<TransactionEntity>> finById(@PathVariable("id") Integer accountId){
-        ResponseEntity<Response<TransactionEntity>> responseEntity;
+    public ResponseEntity<Response<TransactionDto>> finById(@PathVariable("id") Integer accountId){
+        ResponseEntity<Response<TransactionDto>> responseEntity;
         List<String> messages = new ArrayList<>();
-        Response<TransactionEntity> response = new Response<>();
+        Response<TransactionDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            List<TransactionEntity> transactionEntityList = transactionService.findByAccountId(accountId);
+            List<TransactionDto> transactionEntityList = transactionService.findByAccountId(accountId);
             response.setData(transactionEntityList);
             status = HttpStatus.OK;
             messages.add("Lista consultada con exito");

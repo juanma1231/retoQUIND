@@ -1,5 +1,7 @@
 package com.clientes.reto.controller;
 
+import com.clientes.reto.domain.dto.PersonDto;
+import com.clientes.reto.domain.dto.ProductDto;
 import com.clientes.reto.persistence.entity.PersonEntity;
 import com.clientes.reto.persistence.entity.ProductEntity;
 import com.clientes.reto.utils.CustomException;
@@ -25,16 +27,13 @@ public class ProductController {
     PersonService personService;
 
     @PostMapping("/create")
-    public ResponseEntity<Response<ProductEntity>> create(@RequestBody ProductEntity product){
-        ResponseEntity<Response<ProductEntity>> responseEntity;
+    public ResponseEntity<Response<ProductDto>> create(@RequestBody ProductDto product){
+        ResponseEntity<Response<ProductDto>> responseEntity;
         List<String> messages = new ArrayList<>();
-        List<ProductEntity> data = new ArrayList<>();
-        Response<ProductEntity> response = new Response<>();
+        List<ProductDto> data = new ArrayList<>();
+        Response<ProductDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            PersonEntity personEntity = personService.findById(product.getIdClient());
-            product.setClient(personEntity);
-            //personService.save(personEntity);
             data.add(productService.create(product));
             response.setData(data);
             messages.add("Producto creado con exito");
@@ -49,14 +48,14 @@ public class ProductController {
         return responseEntity;
     }
     @GetMapping("/{email}")
-    public ResponseEntity<Response<ProductEntity>> getByUser(@PathVariable("email") String email){
-        ResponseEntity<Response<ProductEntity>> responseEntity;
+    public ResponseEntity<Response<ProductDto>> getByUser(@PathVariable("email") String email){
+        ResponseEntity<Response<ProductDto>> responseEntity;
         List<String> messages = new ArrayList<>();
-        List<ProductEntity> data = new ArrayList<>();
-        Response<ProductEntity> response = new Response<>();
+        List<ProductDto> data = new ArrayList<>();
+        Response<ProductDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            List<ProductEntity> productEntities = productService.finByUser(email);
+            List<ProductDto> productEntities = productService.finByUser(email);
             response.setData(productEntities);
             messages.add("Se han encontrado los productos con exito");
             status = HttpStatus.OK;
@@ -69,11 +68,11 @@ public class ProductController {
         return responseEntity;
     }
     @PatchMapping("/inactive/{id}")
-    public ResponseEntity<Response<ProductEntity>> inactive(@PathVariable("id") Integer accountId){
-        ResponseEntity<Response<ProductEntity>> responseEntity;
+    public ResponseEntity<Response<ProductDto>> inactive(@PathVariable("id") Integer accountId){
+        ResponseEntity<Response<ProductDto>> responseEntity;
         List<String> messages = new ArrayList<>();
-        List<ProductEntity> data = new ArrayList<>();
-        Response<ProductEntity> response = new Response<>();
+        List<ProductDto> data = new ArrayList<>();
+        Response<ProductDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
             data.add(productService.inactive(accountId));
@@ -88,11 +87,11 @@ public class ProductController {
         return  responseEntity;
     }
     @PatchMapping("/cancel/{id}")
-    public ResponseEntity<Response<ProductEntity>> cancel(@PathVariable("id") Integer accountId){
-        ResponseEntity<Response<ProductEntity>> responseEntity;
+    public ResponseEntity<Response<ProductDto>> cancel(@PathVariable("id") Integer accountId){
+        ResponseEntity<Response<ProductDto>> responseEntity;
         List<String> messages = new ArrayList<>();
-        List<ProductEntity> data = new ArrayList<>();
-        Response<ProductEntity> response = new Response<>();
+        List<ProductDto> data = new ArrayList<>();
+        Response<ProductDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
             data.add(productService.cancelar(accountId));
@@ -109,7 +108,7 @@ public class ProductController {
         return responseEntity;
     }
     @GetMapping("/all")
-    public Iterable<ProductEntity> getAll(){
+    public Iterable<ProductDto> getAll(){
         return productService.getALl();
     }
 

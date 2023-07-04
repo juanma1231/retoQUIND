@@ -7,6 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
     @Mappings({
@@ -20,11 +22,16 @@ public interface ProductMapper {
             @Mapping(source = "creationDate",target = "creationDate"),
             @Mapping(source = "updateDate",target = "updateDate"),
             @Mapping(source = "idClient",target = "idClient"),
-            @Mapping(source = "transactions",target = "transactions"),
-            @Mapping(source = "client",target = "client")
+
     })
     ProductDto toProductDto(ProductEntity productEntity);
 
+    List<ProductDto> toProducts(List<ProductEntity> productEntities);
+
     @InheritInverseConfiguration
+    @Mappings({
+            @Mapping(target = "transactions", ignore = true),
+            @Mapping(target = "client", ignore = true)
+    })
     ProductEntity toProductEntity(ProductDto productDto);
 }

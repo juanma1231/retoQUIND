@@ -4,12 +4,11 @@ import com.clientes.reto.domain.dto.ProductDto;
 
 import java.util.List;
 
-public interface ProdcutDtoRepository {
+public interface IProdcutDtoRepository {
     ProductDto finById(Integer id);
     ProductDto save(ProductDto productDto);
-    ProductDto create(ProductDto productDto);
     List<ProductDto> finByUser(String mail);
-    ProductDto inactive(Integer accountId);
-    ProductDto cancel(Integer accountId);
-    Iterable<ProductDto> getAll();
+
+
+    List<ProductDto> getAll();
 }

@@ -1,6 +1,7 @@
 package com.clientes.reto.domain.dto;
 
 import com.clientes.reto.persistence.enums.AccountType;
+import com.clientes.reto.persistence.enums.State;
 
 import java.util.Date;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public class ProductDto {
     private AccountType accountType;
     private Integer productNumber;
-    private String state;
+    private State state;
     private double balance;
     private boolean deudas;
     private double availableBalance;
@@ -16,8 +17,6 @@ public class ProductDto {
     private Date creationDate;
     private Date updateDate;
     private  String idClient;
-    private List<TransactionDto> transactions;
-    private PersonDto client;
     public AccountType getAccountType() {
         return accountType;
     }
@@ -34,11 +33,11 @@ public class ProductDto {
         this.productNumber = productNumber;
     }
 
-    public String getState() {
+    public State getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(State state) {
         this.state = state;
     }
 
@@ -98,19 +97,4 @@ public class ProductDto {
         this.idClient = idClient;
     }
 
-    public List<TransactionDto> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(List<TransactionDto> transactions) {
-        this.transactions = transactions;
-    }
-
-    public PersonDto getClient() {
-        return client;
-    }
-
-    public void setClient(PersonDto client) {
-        this.client = client;
-    }
 }

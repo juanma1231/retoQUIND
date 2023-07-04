@@ -1,5 +1,8 @@
 package com.clientes.reto.domain.dto;
 
+import com.clientes.reto.persistence.enums.State;
+import com.clientes.reto.persistence.enums.TransactionsEnum;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,12 +11,21 @@ import lombok.Setter;
 public class TransactionDto {
 
     private Integer id;
-    private String transaccionType;
+    private TransactionsEnum transaccionType;
 
     private String description;
 
     private double monto;
-    private ProductDto productDto;
+
+    private Integer accountId;
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
 
     public Integer getId() {
         return id;
@@ -23,11 +35,11 @@ public class TransactionDto {
         this.id = id;
     }
 
-    public String getTransaccionType() {
+    public TransactionsEnum getTransaccionType() {
         return transaccionType;
     }
 
-    public void setTransaccionType(String transaccionType) {
+    public void setTransaccionType(TransactionsEnum transaccionType) {
         this.transaccionType = transaccionType;
     }
 
@@ -47,11 +59,4 @@ public class TransactionDto {
         this.monto = monto;
     }
 
-    public ProductDto getProductDto() {
-        return productDto;
-    }
-
-    public void setProductDto(ProductDto productDto) {
-        this.productDto = productDto;
-    }
 }
