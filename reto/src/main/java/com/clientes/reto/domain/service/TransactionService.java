@@ -4,6 +4,8 @@ import com.clientes.reto.domain.dto.ProductDto;
 import com.clientes.reto.domain.dto.TransactionDto;
 import com.clientes.reto.domain.repository.IProdcutDtoRepository;
 import com.clientes.reto.domain.repository.ITransactionRepository;
+import com.clientes.reto.domain.usecase.IProductUseCase;
+import com.clientes.reto.domain.usecase.ITransactionUseCase;
 import com.clientes.reto.persistence.entity.ProductEntity;
 import com.clientes.reto.persistence.entity.TransactionEntity;
 import com.clientes.reto.persistence.enums.AccountType;
@@ -20,10 +22,10 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class TransactionService {
+public class TransactionService implements ITransactionUseCase {
     @Autowired
     @Lazy
-    IProdcutDtoRepository productService;
+    IProductUseCase iProductUseCase;
 
     @Autowired
     @Lazy
@@ -32,7 +34,7 @@ public class TransactionService {
     public TransactionDto retirar(TransactionDto transactionDto) {
         double monto = transactionDto.getMonto();
         Integer accountNumber = transactionDto.getAccountId();
-        ProductDto productEntity = productService.finById(accountNumber);
+        ProductDto productEntity = iProductUseCase.finById(accountNumber);
         double montofavor = monto - productEntity.getAvailableBalance();
         if(productEntity!=null){
             if (productEntity.getAccountType().equals(AccountType.CORRIENTE) && montofavor<3000000 || productEntity.getAccountType().equals(AccountType.AHORROS)){
@@ -44,7 +46,7 @@ public class TransactionService {
                     }
                     Date currentDate = new Date();
                     productEntity.setUpdateDate(currentDate);
-                    productService.save(productEntity);
+                    iProductUseCase.save(productEntity);
                     return transactionRepository.save(transactionDto);
                 } else throw new CustomException("el monto que desea retirar, excede su saldo disponible");
 
@@ -55,7 +57,7 @@ public class TransactionService {
     public TransactionDto consignar(TransactionDto transactionEntity){
         double monto = transactionEntity.getMonto();
         Integer accountNumber = transactionEntity.getAccountId();
-        ProductDto product= productService.finById(accountNumber);
+        ProductDto product= iProductUseCase.finById(accountNumber);
         if(product!=null){
             product.setBalance(product.getBalance() + monto);
             product.setAvailableBalance(product.getAvailableBalance() + monto);
@@ -64,7 +66,7 @@ public class TransactionService {
             }
             Date currentDate = new Date();
             product.setUpdateDate(currentDate);
-            productService.save(product);
+            iProductUseCase.save(product);
             return transactionRepository.save(transactionEntity);
         }else throw new CustomException("La cuenta no existe");
 
@@ -72,8 +74,8 @@ public class TransactionService {
     public TransactionDto doATransference(Integer receptor, TransactionDto transactionEntity){
         Integer emisot = transactionEntity.getAccountId();
         double monto = transactionEntity.getMonto();
-        ProductDto product = productService.finById(receptor);
-        ProductDto product1 = productService.finById(emisot);
+        ProductDto product = iProductUseCase.finById(receptor);
+        ProductDto product1 = iProductUseCase.finById(emisot);
         double montofavor = monto - product1.getAvailableBalance();
         if(product!=null && product1!=null){
             if (product1.getAccountType().equals(AccountType.CORRIENTE) && montofavor<3000000 || product1.getAccountType().equals(AccountType.AHORROS)){
@@ -90,8 +92,8 @@ public class TransactionService {
                     Date currentDate = new Date();
                     product.setUpdateDate(currentDate);
                     product1.setUpdateDate(currentDate);
-                    productService.save(product);
-                    productService.save(product1);
+                    iProductUseCase.save(product);
+                    iProductUseCase.save(product1);
                     return transactionRepository.save(transactionEntity);
                 }else throw new CustomException("El emsisor no tiene saldo disponible");
             }else throw new CustomException("No puede sobregirar la cuenta màs de 3 millones");

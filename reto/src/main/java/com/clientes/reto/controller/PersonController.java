@@ -1,6 +1,7 @@
 package com.clientes.reto.controller;
 
 import com.clientes.reto.domain.dto.PersonDto;
+import com.clientes.reto.domain.usecase.IPersonUseCase;
 import com.clientes.reto.persistence.entity.PersonEntity;
 import com.clientes.reto.utils.CustomException;
 import com.clientes.reto.utils.CustomResponse;
@@ -22,11 +23,11 @@ import java.util.stream.StreamSupport;
 @RequestMapping("/client")
 public class PersonController {
     @Autowired
-    private PersonService personService;
+    private IPersonUseCase iPersonUseCase;
 
     @GetMapping("/{mail}")
     public PersonDto getByUserId(@PathVariable("mail") String mail){
-        return personService.findById(mail);
+        return iPersonUseCase.findById(mail);
     }
 
     @GetMapping()
@@ -36,7 +37,7 @@ public class PersonController {
         Response<PersonDto> response1 = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            List<PersonDto> users = StreamSupport.stream(personService.getAllUsers().spliterator(), false)
+            List<PersonDto> users = StreamSupport.stream(iPersonUseCase.getAllUsers().spliterator(), false)
                     .collect(Collectors.toList());
             response1.setData(users);
             messages.add("OK");
@@ -59,7 +60,7 @@ public class PersonController {
         List<PersonDto> data= new ArrayList<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            data.add(personService.create(personDto));
+            data.add(iPersonUseCase.create(personDto));
             response.setData(data);
             messages.add("Usuario creado con exito");
             status = HttpStatus.OK;
@@ -79,7 +80,7 @@ public class PersonController {
         Response<PersonDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            personService.delete(mail);
+            iPersonUseCase.delete(mail);
             messages.add("usuario eliminado con exito");
             status = HttpStatus.OK;
         } catch (CustomException e) {
@@ -91,10 +92,10 @@ public class PersonController {
         return responseEntity;
     }
     @PatchMapping("/user/{email}")
-    public ResponseEntity<Object> updateUser(@PathVariable("email") String email, @RequestBody PersonEntity personEntity){
+    public ResponseEntity<Object> updateUser(@PathVariable("email") String email, @RequestBody PersonDto personEntity){
         ResponseEntity<Object> response;
         try {
-            PersonDto person = personService.patch(email, personEntity);
+            PersonDto person = iPersonUseCase.patch(email, personEntity);
             CustomResponse customResponse = new CustomResponse("Usuario actulizado con exito", HttpStatus.OK);
             customResponse.setResponseObject(person);
             response = new ResponseEntity<>(customResponse, HttpStatus.OK);

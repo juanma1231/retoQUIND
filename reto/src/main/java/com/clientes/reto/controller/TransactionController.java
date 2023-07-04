@@ -1,5 +1,6 @@
 package com.clientes.reto.controller;
 import com.clientes.reto.domain.dto.TransactionDto;
+import com.clientes.reto.domain.usecase.ITransactionUseCase;
 import com.clientes.reto.persistence.entity.TransactionEntity;
 import com.clientes.reto.persistence.enums.TransactionsEnum;
 import com.clientes.reto.utils.CustomException;
@@ -18,7 +19,7 @@ import java.util.List;
 public class TransactionController {
 
     @Autowired
-    TransactionService transactionService;
+    ITransactionUseCase iTransactionUseCase;
 
     @PostMapping("/make")
     public ResponseEntity<Response<TransactionDto>> crear(@RequestBody TransactionDto transactionEntity){
@@ -30,7 +31,7 @@ public class TransactionController {
 
         if(transactionEntity.getTransaccionType().equals(TransactionsEnum.CONSIGNACION)){
             try {
-                data.add(transactionService.consignar(transactionEntity));
+                data.add(iTransactionUseCase.consignar(transactionEntity));
                 response.setData(data);
                 messages.add("Consignacion realizada con exito");
                 status = HttpStatus.OK;
@@ -44,7 +45,7 @@ public class TransactionController {
 
         } else if (transactionEntity.getTransaccionType().equals(TransactionsEnum.RETIRO)) {
             try {
-                data.add(transactionService.retirar(transactionEntity));
+                data.add(iTransactionUseCase.retirar(transactionEntity));
                 status = HttpStatus.OK;
                 messages.add("Retiro realizado con exito");
             } catch (CustomException e) {
@@ -70,7 +71,7 @@ public class TransactionController {
         Response<TransactionDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            data.add(transactionService.doATransference(accountId, transactionDto));
+            data.add(iTransactionUseCase.doATransference(accountId, transactionDto));
             messages.add("Transferencia exitosa");
             status = HttpStatus.OK;
         } catch (CustomException e) {
@@ -89,7 +90,7 @@ public class TransactionController {
         Response<TransactionDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            List<TransactionDto> transactionEntityList = transactionService.findByAccountId(accountId);
+            List<TransactionDto> transactionEntityList = iTransactionUseCase.findByAccountId(accountId);
             response.setData(transactionEntityList);
             status = HttpStatus.OK;
             messages.add("Lista consultada con exito");

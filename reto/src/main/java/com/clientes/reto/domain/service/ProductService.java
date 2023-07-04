@@ -4,6 +4,7 @@ import com.clientes.reto.domain.dto.PersonDto;
 import com.clientes.reto.domain.dto.ProductDto;
 import com.clientes.reto.domain.repository.IPersonRepository;
 import com.clientes.reto.domain.repository.IProdcutDtoRepository;
+import com.clientes.reto.domain.usecase.IProductUseCase;
 import com.clientes.reto.persistence.enums.State;
 import com.clientes.reto.utils.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class ProductService {
+public class ProductService implements IProductUseCase {
     @Autowired
     @Lazy
     IProdcutDtoRepository productDtoRepository;

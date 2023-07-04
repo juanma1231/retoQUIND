@@ -2,6 +2,7 @@ package com.clientes.reto.controller;
 
 import com.clientes.reto.domain.dto.PersonDto;
 import com.clientes.reto.domain.dto.ProductDto;
+import com.clientes.reto.domain.usecase.IProductUseCase;
 import com.clientes.reto.persistence.entity.PersonEntity;
 import com.clientes.reto.persistence.entity.ProductEntity;
 import com.clientes.reto.utils.CustomException;
@@ -21,10 +22,8 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
     @Autowired
-    ProductService productService;
+    IProductUseCase iProductUseCase;
 
-    @Autowired
-    PersonService personService;
 
     @PostMapping("/create")
     public ResponseEntity<Response<ProductDto>> create(@RequestBody ProductDto product){
@@ -34,7 +33,7 @@ public class ProductController {
         Response<ProductDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            data.add(productService.create(product));
+            data.add(iProductUseCase.create(product));
             response.setData(data);
             messages.add("Producto creado con exito");
             status = HttpStatus.OK;
@@ -55,7 +54,7 @@ public class ProductController {
         Response<ProductDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            List<ProductDto> productEntities = productService.finByUser(email);
+            List<ProductDto> productEntities = iProductUseCase.finByUser(email);
             response.setData(productEntities);
             messages.add("Se han encontrado los productos con exito");
             status = HttpStatus.OK;
@@ -75,7 +74,7 @@ public class ProductController {
         Response<ProductDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            data.add(productService.inactive(accountId));
+            data.add(iProductUseCase.inactive(accountId));
             messages.add("Cuenta inactivada con exito");
             status = HttpStatus.OK;
         } catch (Exception e) {
@@ -94,7 +93,7 @@ public class ProductController {
         Response<ProductDto> response = new Response<>();
         HttpStatus status= HttpStatus.BAD_REQUEST;
         try {
-            data.add(productService.cancelar(accountId));
+            data.add(iProductUseCase.cancelar(accountId));
             response.setData(data);
             status = HttpStatus.OK;
             messages.add("Cuenta cancelada con exito");
@@ -109,7 +108,7 @@ public class ProductController {
     }
     @GetMapping("/all")
     public Iterable<ProductDto> getAll(){
-        return productService.getALl();
+        return iProductUseCase.getALl();
     }
 
 }

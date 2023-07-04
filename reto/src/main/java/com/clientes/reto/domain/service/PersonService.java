@@ -4,7 +4,7 @@ import com.clientes.reto.domain.dto.PersonDto;
 import com.clientes.reto.domain.dto.ProductDto;
 import com.clientes.reto.domain.repository.IPersonRepository;
 import com.clientes.reto.domain.repository.IProdcutDtoRepository;
-import com.clientes.reto.persistence.entity.PersonEntity;
+import com.clientes.reto.domain.usecase.IPersonUseCase;
 import com.clientes.reto.utils.CustomException;
 import com.clientes.reto.utils.Fecha;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @Service
-public class PersonService{
+public class PersonService implements IPersonUseCase {
     @Autowired
     @Lazy
     IProdcutDtoRepository productService;
@@ -62,10 +62,10 @@ public class PersonService{
     public  PersonDto findById(String email){
         return personRepository.finById(email);
     }
-    public PersonDto patch(String email, PersonEntity person){
+    public PersonDto patch(String email, PersonDto person){
         PersonDto person1 = personRepository.finById(email);
         person1.setName(UtilString.isEmptyOrNull(person.getName()) ? person1.getName() : person.getName());
-        person1.setLastName(UtilString.isEmptyOrNull(person.getLastname()) ? person1.getLastName() : person.getLastname());
+        person1.setLastName(UtilString.isEmptyOrNull(person.getLastName()) ? person1.getLastName() : person.getLastName());
         person1.setIdType(UtilString.isEmptyOrNull(person.getIdType()) ? person1.getIdType() : person.getIdType());
         person1.setIdNumber(UtilString.isEmptyOrNull(person.getIdNumber()) ? person1.getIdNumber() : person.getIdNumber());
         Date fechaActual = new Date();
