@@ -46,9 +46,9 @@ public class TransactionService {
                     productEntity.setUpdateDate(currentDate);
                     productService.save(productEntity);
                     return transactionRepository.save(transactionDto);
-                }else throw new CustomException("No puede sobregirar la cuenta a más de 3 millones");
+                } else throw new CustomException("el monto que desea retirar, excede su saldo disponible");
 
-            } else throw new CustomException("el monto que desea retirar, excede su saldo disponible");
+            } else throw new CustomException("No puede sobregirar la cuenta a más de 3 millones");
         }else throw new CustomException("la cuenta no existe");
 
     }
