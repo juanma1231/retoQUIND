@@ -1,7 +1,10 @@
 package com.clientes.reto.domain.service;
 import static org.mockito.BDDMockito.given;
 import com.clientes.reto.domain.dto.PersonDto;
+import com.clientes.reto.domain.dto.ProductDto;
 import com.clientes.reto.domain.repository.IPersonRepository;
+import com.clientes.reto.domain.repository.IProdcutDtoRepository;
+import com.clientes.reto.persistence.enums.AccountType;
 import com.clientes.reto.utils.CustomException;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.*;
 
 
@@ -24,7 +28,8 @@ import static org.mockito.Mockito.*;
 class PersonServiceTest {
     @Mock
     private IPersonRepository iPersonRepository;
-
+    @Mock
+    IProdcutDtoRepository productService;
     @InjectMocks
     private PersonService personService;
     PersonDto personDto = new PersonDto();
@@ -84,6 +89,22 @@ class PersonServiceTest {
 
     @Test
     void delete() {
+        ProductDto productDto = new ProductDto();
+        productDto.setAccountType(AccountType.AHORROS);
+        productDto.setDeudas(false);
+        productDto.setProductNumber(1234567890);
+        productDto.setCreationDate(new Date());
+        productDto.setUpdateDate(new Date());
+        productDto.setBalance(2000);
+        productDto.setAvailableBalance(1500);
+        String email = "Juan Mnauel";
+        willDoNothing().given(iPersonRepository).delete(email);
+        given(productService.finByUser(personDto.getEmail())).willReturn(List.of(productDto));
+        //List<ProductDto> list = productService.finByUser(personDto.getEmail());
+        //System.out.println("dandole");
+        //System.out.println(list.size());
+        personService.delete(email);
+        verify(iPersonRepository,times(1)).delete(email);
 
     }
 
