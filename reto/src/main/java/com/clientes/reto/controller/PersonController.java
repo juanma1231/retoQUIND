@@ -2,11 +2,10 @@ package com.clientes.reto.controller;
 
 import com.clientes.reto.domain.dto.PersonDto;
 import com.clientes.reto.domain.usecase.IPersonUseCase;
-import com.clientes.reto.persistence.entity.PersonEntity;
+
 import com.clientes.reto.utils.CustomException;
-import com.clientes.reto.utils.CustomResponse;
+
 import com.clientes.reto.utils.Response;
-import com.clientes.reto.domain.service.PersonService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -92,16 +91,27 @@ public class PersonController {
         return responseEntity;
     }
     @PatchMapping("/user/{email}")
-    public ResponseEntity<Object> updateUser(@PathVariable("email") String email, @RequestBody PersonDto personEntity){
-        ResponseEntity<Object> response;
+    public ResponseEntity<Response<PersonDto>> updateUser(@PathVariable("email") String email, @RequestBody PersonDto personEntity){
+        ResponseEntity<Response<PersonDto>> entity;
+        List<String> messages = new ArrayList<>();
+        Response<PersonDto> response = new Response<>();
+        HttpStatus status= HttpStatus.BAD_REQUEST;
+        List<PersonDto> data = new ArrayList<>();
+
         try {
             PersonDto person = iPersonUseCase.patch(email, personEntity);
-            CustomResponse customResponse = new CustomResponse("Usuario actulizado con exito", HttpStatus.OK);
-            customResponse.setResponseObject(person);
-            response = new ResponseEntity<>(customResponse, HttpStatus.OK);
+            messages.add("usuario actualizado con exito");
+            data.add(person);
+            response.setData(data);
+            status= HttpStatus.OK;
+
         } catch (CustomException e) {
-            response = new ResponseEntity<>(e,HttpStatus.BAD_REQUEST);
+            messages.add(e.getMessage());
         }
-        return response;
+        response.setMessage(messages);
+        response.setStatus(status);
+        entity = new ResponseEntity<>(response,status);
+        return entity;
+
     }
 }
