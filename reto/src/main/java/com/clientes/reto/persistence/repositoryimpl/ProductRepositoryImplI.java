@@ -20,7 +20,7 @@ public class ProductRepositoryImplI implements IProdcutDtoRepository {
     @Autowired
     ProductMapper mapper;
     @Override
-    public ProductDto finById(Integer id) {
+    public ProductDto finById(String id) {
         return mapper.toProductDto(productRepository.finById(id));
     }
 

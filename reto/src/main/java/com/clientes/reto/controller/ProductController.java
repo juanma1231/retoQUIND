@@ -67,7 +67,7 @@ public class ProductController {
         return responseEntity;
     }
     @PatchMapping("/inactive/{id}")
-    public ResponseEntity<Response<ProductDto>> inactive(@PathVariable("id") Integer accountId){
+    public ResponseEntity<Response<ProductDto>> inactive(@PathVariable("id") String accountId){
         ResponseEntity<Response<ProductDto>> responseEntity;
         List<String> messages = new ArrayList<>();
         List<ProductDto> data = new ArrayList<>();
@@ -86,7 +86,7 @@ public class ProductController {
         return  responseEntity;
     }
     @PatchMapping("/cancel/{id}")
-    public ResponseEntity<Response<ProductDto>> cancel(@PathVariable("id") Integer accountId){
+    public ResponseEntity<Response<ProductDto>> cancel(@PathVariable("id") String accountId){
         ResponseEntity<Response<ProductDto>> responseEntity;
         List<String> messages = new ArrayList<>();
         List<ProductDto> data = new ArrayList<>();

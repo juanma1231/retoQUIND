@@ -7,6 +7,6 @@ import java.util.List;
 public interface ITransactionUseCase {
     TransactionDto retirar(TransactionDto transactionDto);
     TransactionDto consignar(TransactionDto transactionDto);
-    TransactionDto doATransference(Integer receptor, TransactionDto transactionDto);
-    List<TransactionDto> findByAccountId(Integer accountId);
+    TransactionDto doATransference(String receptor, TransactionDto transactionDto);
+    List<TransactionDto> findByAccountId(String accountId);
 }

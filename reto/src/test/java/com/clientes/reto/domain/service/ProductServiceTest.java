@@ -37,7 +37,7 @@ class ProductServiceTest {
     void setUp(){
         productDto.setAccountType(AccountType.AHORROS);
         productDto.setDeudas(false);
-        productDto.setProductNumber(1234567890);
+        productDto.setProductNumber("1234567890");
         productDto.setCreationDate(new Date());
         productDto.setUpdateDate(new Date());
         productDto.setBalance(2000);
@@ -122,7 +122,7 @@ class ProductServiceTest {
     void getALl() {
         ProductDto productDto1 = new ProductDto();
         productDto1.setBalance(200);
-        productDto1.setProductNumber(1234567891);
+        productDto1.setProductNumber("1234567891");
         productDto1.setIdClient("juanma@gmail.com");
         productDto1.setAvailableBalance(250);
         given(prodcutDtoRepository.getAll()).willReturn(List.of(productDto1,productDto));

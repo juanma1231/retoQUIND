@@ -5,10 +5,13 @@ import com.clientes.reto.domain.dto.ProductDto;
 import com.clientes.reto.domain.repository.IPersonRepository;
 import com.clientes.reto.domain.repository.IProdcutDtoRepository;
 import com.clientes.reto.domain.usecase.IProductUseCase;
+import com.clientes.reto.persistence.enums.AccountType;
 import com.clientes.reto.persistence.enums.State;
 import com.clientes.reto.utils.CustomException;
+import static com.clientes.reto.utils.NumeroCuentaGenerator.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +27,8 @@ public class ProductService implements IProductUseCase {
     @Lazy
     IPersonRepository personService;
 
-    public ProductDto finById(Integer id) {
+
+    public ProductDto finById(String id) {
         return productDtoRepository.finById(id);
     }
 
@@ -34,6 +38,28 @@ public class ProductService implements IProductUseCase {
     }
     public ProductDto create(ProductDto product){
         PersonDto person = personService.finById(product.getIdClient());
+        boolean unic= false;
+        String accountNumber;
+        if(product.getAccountType().equals(AccountType.AHORROS)) {
+            while(!unic){
+                accountNumber = generarNumeroCuentaAhorro();
+                ProductDto productDto11 = productDtoRepository.finById(accountNumber);
+                if (productDto11==null){
+                    product.setProductNumber(accountNumber);
+                    unic = true;
+                }
+            }
+        } else if (product.getAccountType().equals(AccountType.CORRIENTE)) {
+            while (!unic){
+                accountNumber = generarNumeroCuentaCorriente();
+                ProductDto productDto1 = productDtoRepository.finById(accountNumber);
+                if (productDto1== null){
+                    product.setProductNumber(accountNumber);
+                    unic=true;
+                }
+            }
+
+        }
         if(person!=null){
             product.setDeudas(false);
             product.setState(State.ACTIVO);
@@ -44,18 +70,20 @@ public class ProductService implements IProductUseCase {
         }else throw new CustomException("Usuario no existe");
 
 
+
+
     }
     public  List<ProductDto> finByUser(String email){
         return productDtoRepository.finByUser(email);
     }
-    public ProductDto inactive(Integer accountId){
+    public ProductDto inactive(String accountId){
         ProductDto product = productDtoRepository.finById(accountId);
         product.setState(State.INACTIVO);
         Date currentDate = new Date();
         product.setUpdateDate(currentDate);
         return productDtoRepository.save(product);
     }
-    public ProductDto cancelar(Integer accountId){
+    public ProductDto cancelar(String accountId){
         ProductDto product = productDtoRepository.finById(accountId);
         if (product.getBalance() < 1 && Boolean.TRUE.equals(!product.isDeudas())){
             product.setState(State.CANCELADA);

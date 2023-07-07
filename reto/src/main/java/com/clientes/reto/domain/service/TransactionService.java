@@ -33,7 +33,7 @@ public class TransactionService implements ITransactionUseCase {
 
     public TransactionDto retirar(TransactionDto transactionDto) {
         double monto = transactionDto.getMonto();
-        Integer accountNumber = transactionDto.getAccountId();
+        String accountNumber = transactionDto.getAccountId();
         ProductDto productEntity = iProductUseCase.finById(accountNumber);
         double montofavor = monto - productEntity.getAvailableBalance();
         if(productEntity!=null){
@@ -56,7 +56,7 @@ public class TransactionService implements ITransactionUseCase {
     }
     public TransactionDto consignar(TransactionDto transactionEntity){
         double monto = transactionEntity.getMonto();
-        Integer accountNumber = transactionEntity.getAccountId();
+        String accountNumber = transactionEntity.getAccountId();
         ProductDto product= iProductUseCase.finById(accountNumber);
         if(product!=null){
             product.setBalance(product.getBalance() + monto);
@@ -71,8 +71,8 @@ public class TransactionService implements ITransactionUseCase {
         }else throw new CustomException("La cuenta no existe");
 
     }
-    public TransactionDto doATransference(Integer receptor, TransactionDto transactionEntity){
-        Integer emisot = transactionEntity.getAccountId();
+    public TransactionDto doATransference(String receptor, TransactionDto transactionEntity){
+        String emisot = transactionEntity.getAccountId();
         double monto = transactionEntity.getMonto();
         ProductDto product = iProductUseCase.finById(receptor);
         ProductDto product1 = iProductUseCase.finById(emisot);
@@ -101,7 +101,7 @@ public class TransactionService implements ITransactionUseCase {
 
     }
 
-    public List<TransactionDto> findByAccountId(Integer accountId){
+    public List<TransactionDto> findByAccountId(String accountId){
         return transactionRepository.findByAccountId(accountId);
     }
 }

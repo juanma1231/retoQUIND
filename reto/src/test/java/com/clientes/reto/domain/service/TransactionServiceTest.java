@@ -42,7 +42,7 @@ class TransactionServiceTest {
         productDto.setBalance(1000);
         productDto.setAvailableBalance(500);
         productDto.setDeudas(false);
-        productDto.setProductNumber(1234567890);
+        productDto.setProductNumber("1234567890");
         productDto.setAccountType(AccountType.AHORROS);
         transactionDto.setAccountId(productDto.getProductNumber());
         transactionDto.setTransaccionType(TransactionsEnum.RETIRO);
@@ -133,7 +133,7 @@ class TransactionServiceTest {
     void doATransference() {
         ProductDto productDto1 = new ProductDto();
         productDto1.setAccountType(AccountType.AHORROS);
-        productDto1.setProductNumber(1234567893);
+        productDto1.setProductNumber("1234567893");
         productDto1.setBalance(1000);
         productDto1.setAvailableBalance(500);
         transactionDto.setTransaccionType(TransactionsEnum.TRANSFERENCIA);
@@ -156,7 +156,7 @@ class TransactionServiceTest {
         productDto.setAccountType(AccountType.CORRIENTE);
         ProductDto productDto1 = new ProductDto();
         productDto1.setAccountType(AccountType.AHORROS);
-        productDto1.setProductNumber(1234567893);
+        productDto1.setProductNumber("1234567893");
         productDto1.setBalance(1000);
         productDto1.setAvailableBalance(500);
         transactionDto.setTransaccionType(TransactionsEnum.TRANSFERENCIA);
@@ -177,7 +177,7 @@ class TransactionServiceTest {
     void doATransference_with_exception() {
         ProductDto productDto1 = new ProductDto();
         productDto1.setAccountType(AccountType.AHORROS);
-        productDto1.setProductNumber(1234567893);
+        productDto1.setProductNumber("1234567893");
         productDto1.setBalance(1000);
         productDto1.setAvailableBalance(500);
         transactionDto.setTransaccionType(TransactionsEnum.TRANSFERENCIA);
@@ -201,7 +201,7 @@ class TransactionServiceTest {
         productDto.setAccountType(AccountType.CORRIENTE);
         ProductDto productDto1 = new ProductDto();
         productDto1.setAccountType(AccountType.AHORROS);
-        productDto1.setProductNumber(1234567893);
+        productDto1.setProductNumber("1234567893");
         productDto1.setBalance(1000);
         productDto1.setAvailableBalance(500);
         transactionDto.setTransaccionType(TransactionsEnum.TRANSFERENCIA);

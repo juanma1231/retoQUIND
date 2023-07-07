@@ -19,7 +19,7 @@ public class TransactionRepositoryImpl implements ITransactionRepository {
     @Autowired
     private TransactionMapper mapper;
     @Override
-    public List<TransactionDto> findByAccountId(Integer accountId) {
+    public List<TransactionDto> findByAccountId(String accountId) {
         return mapper.toTransactions(repository.findByAccountId(accountId));
     }
 

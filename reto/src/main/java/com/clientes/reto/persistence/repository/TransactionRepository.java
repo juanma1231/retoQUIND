@@ -9,5 +9,5 @@ import java.util.List;
 public interface TransactionRepository  extends CrudRepository<TransactionEntity, Integer> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM transaction t WHERE t.account_id = ?1")
-    List<TransactionEntity> findByAccountId(Integer accountId);
+    List<TransactionEntity> findByAccountId(String accountId);
 }

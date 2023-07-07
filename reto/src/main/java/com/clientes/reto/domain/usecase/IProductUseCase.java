@@ -7,10 +7,10 @@ import java.util.List;
 public interface IProductUseCase {
     ProductDto create(ProductDto productDto);
     ProductDto save(ProductDto productDto);
-    ProductDto finById(Integer id);
+    ProductDto finById(String id);
     List<ProductDto> finByUser(String email);
-    ProductDto inactive(Integer accountId);
-    ProductDto cancelar(Integer accountId);
+    ProductDto inactive(String accountId);
+    ProductDto cancelar(String accountId);
     List<ProductDto> getALl();
 
 }

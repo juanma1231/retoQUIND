@@ -92,7 +92,7 @@ class PersonServiceTest {
         ProductDto productDto = new ProductDto();
         productDto.setAccountType(AccountType.AHORROS);
         productDto.setDeudas(false);
-        productDto.setProductNumber(1234567890);
+        productDto.setProductNumber("1234567890");
         productDto.setCreationDate(new Date());
         productDto.setUpdateDate(new Date());
         productDto.setBalance(2000);

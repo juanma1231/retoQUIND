@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ProductDto {
     private AccountType accountType;
-    private Integer productNumber;
+    private String productNumber;
     private State state;
     private double balance;
     private boolean deudas;
@@ -25,11 +25,11 @@ public class ProductDto {
         this.accountType = accountType;
     }
 
-    public Integer getProductNumber() {
+    public String getProductNumber() {
         return productNumber;
     }
 
-    public void setProductNumber(Integer productNumber) {
+    public void setProductNumber(String productNumber) {
         this.productNumber = productNumber;
     }
 

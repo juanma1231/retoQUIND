@@ -16,8 +16,8 @@ public class ProductEntity {
     private AccountType accountType;
 
     @Id
-    @Column(name = "product_number", nullable = false, length = 10)
-    private Integer producNumber;
+    @Column(name = "product_number")
+    private String producNumber;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -55,7 +55,7 @@ public class ProductEntity {
     @JoinColumn(name = "client", insertable = false, updatable = false)
     private  PersonEntity client;
 
-    public ProductEntity(AccountType accountType, Integer producNumber, State state, Double balance, Boolean deaudas, Double availableBalance, Boolean excentaGMF, Date creationDate, Date updateDate, String idClient, List<TransactionEntity> transactions, PersonEntity client) {
+    public ProductEntity(AccountType accountType, String producNumber, State state, Double balance, Boolean deaudas, Double availableBalance, Boolean excentaGMF, Date creationDate, Date updateDate, String idClient, List<TransactionEntity> transactions, PersonEntity client) {
         this.accountType = accountType;
         this.producNumber = producNumber;
         this.state = state;
@@ -81,11 +81,11 @@ public class ProductEntity {
         this.accountType = accountType;
     }
 
-    public Integer getProducNumber() {
+    public String getProducNumber() {
         return producNumber;
     }
 
-    public void setProducNumber(Integer producNumber) {
+    public void setProducNumber(String producNumber) {
         this.producNumber = producNumber;
     }
 

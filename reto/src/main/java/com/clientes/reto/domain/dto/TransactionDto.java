@@ -17,13 +17,13 @@ public class TransactionDto {
 
     private double monto;
 
-    private Integer accountId;
+    private String accountId;
 
-    public Integer getAccountId() {
+    public String getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Integer accountId) {
+    public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
 

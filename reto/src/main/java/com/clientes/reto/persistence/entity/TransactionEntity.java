@@ -22,13 +22,13 @@ public class TransactionEntity {
     private Double monto;
 
     @Column(name = "account_id", nullable = false, length = 10)
-    private Integer accountId;
+    private String accountId;
 
     @ManyToOne
     @JoinColumn(name = "product_number")
     private ProductEntity productEntity;
 
-    public TransactionEntity(Integer id, TransactionsEnum transactionType, String description, Double monto, Integer accountId, ProductEntity productEntity) {
+    public TransactionEntity(Integer id, TransactionsEnum transactionType, String description, Double monto, String accountId, ProductEntity productEntity) {
         this.id = id;
         this.transactionType = transactionType;
         this.description = description;
@@ -73,11 +73,11 @@ public class TransactionEntity {
         this.monto = monto;
     }
 
-    public Integer getAccountId() {
+    public String getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Integer accountId) {
+    public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
 

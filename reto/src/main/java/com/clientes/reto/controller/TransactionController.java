@@ -64,7 +64,7 @@ public class TransactionController {
         return responseEntity;
     }
     @PostMapping("/transferencia/{accountid}")
-    public ResponseEntity<Response<TransactionDto>> tranferir(@RequestBody TransactionDto transactionDto, @PathVariable("accountid") Integer accountId){
+    public ResponseEntity<Response<TransactionDto>> tranferir(@RequestBody TransactionDto transactionDto, @PathVariable("accountid") String accountId){
         ResponseEntity<Response<TransactionDto>> responseEntity;
         List<String> messages = new ArrayList<>();
         List<TransactionDto> data = new ArrayList<>();
@@ -84,7 +84,7 @@ public class TransactionController {
         return  responseEntity;
     }
     @GetMapping("/transactions/{id}")
-    public ResponseEntity<Response<TransactionDto>> finById(@PathVariable("id") Integer accountId){
+    public ResponseEntity<Response<TransactionDto>> finById(@PathVariable("id") String accountId){
         ResponseEntity<Response<TransactionDto>> responseEntity;
         List<String> messages = new ArrayList<>();
         Response<TransactionDto> response = new Response<>();
