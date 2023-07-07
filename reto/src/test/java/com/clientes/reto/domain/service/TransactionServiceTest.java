@@ -5,7 +5,7 @@ import com.clientes.reto.aplicacion.service.TransactionService;
 import com.clientes.reto.domain.dto.ProductDto;
 import com.clientes.reto.domain.dto.TransactionDto;
 import com.clientes.reto.domain.repository.ITransactionRepository;
-import com.clientes.reto.aplicacion.service.usecase.IProductUseCase;
+import com.clientes.reto.aplicacion.usecase.IProductUseCase;
 import com.clientes.reto.infrastructura.enums.AccountType;
 import com.clientes.reto.infrastructura.enums.TransactionsEnum;
 import com.clientes.reto.utils.CustomException;

@@ -1,4 +1,4 @@
-package com.clientes.reto.aplicacion.service.usecase;
+package com.clientes.reto.aplicacion.usecase;
 
 import com.clientes.reto.domain.dto.ProductDto;
 

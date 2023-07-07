@@ -4,7 +4,7 @@ import com.clientes.reto.domain.dto.PersonDto;
 import com.clientes.reto.domain.dto.ProductDto;
 import com.clientes.reto.domain.repository.IPersonRepository;
 import com.clientes.reto.domain.repository.IProdcutDtoRepository;
-import com.clientes.reto.aplicacion.service.usecase.IProductUseCase;
+import com.clientes.reto.aplicacion.usecase.IProductUseCase;
 import com.clientes.reto.infrastructura.enums.AccountType;
 import com.clientes.reto.infrastructura.enums.State;
 import com.clientes.reto.utils.CustomException;
