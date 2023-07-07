@@ -2,20 +2,14 @@ package com.clientes.reto.domain.service;
 
 import static org.mockito.BDDMockito.given;
 
+import com.clientes.reto.aplicacion.service.PersonService;
 import com.clientes.reto.domain.dto.PersonDto;
 import com.clientes.reto.domain.repository.IPersonRepository;
-import com.clientes.reto.domain.usecase.IPersonUseCase;
-import com.clientes.reto.utils.CustomException;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.jupiter.api.Assertions;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +17,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

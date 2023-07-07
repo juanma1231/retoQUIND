@@ -1,10 +1,9 @@
 package com.clientes.reto.domain.dto;
 
-import com.clientes.reto.persistence.enums.AccountType;
-import com.clientes.reto.persistence.enums.State;
+import com.clientes.reto.infrastructura.enums.AccountType;
+import com.clientes.reto.infrastructura.enums.State;
 
 import java.util.Date;
-import java.util.List;
 
 public class ProductDto {
     private AccountType accountType;

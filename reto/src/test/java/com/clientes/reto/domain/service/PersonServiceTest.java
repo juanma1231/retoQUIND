@@ -1,10 +1,12 @@
 package com.clientes.reto.domain.service;
 import static org.mockito.BDDMockito.given;
+
+import com.clientes.reto.aplicacion.service.PersonService;
 import com.clientes.reto.domain.dto.PersonDto;
 import com.clientes.reto.domain.dto.ProductDto;
 import com.clientes.reto.domain.repository.IPersonRepository;
 import com.clientes.reto.domain.repository.IProdcutDtoRepository;
-import com.clientes.reto.persistence.enums.AccountType;
+import com.clientes.reto.infrastructura.enums.AccountType;
 import com.clientes.reto.utils.CustomException;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;

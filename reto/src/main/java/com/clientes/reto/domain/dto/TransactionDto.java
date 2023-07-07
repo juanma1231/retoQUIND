@@ -1,11 +1,6 @@
 package com.clientes.reto.domain.dto;
 
-import com.clientes.reto.persistence.enums.State;
-import com.clientes.reto.persistence.enums.TransactionsEnum;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.clientes.reto.infrastructura.enums.TransactionsEnum;
 
 
 public class TransactionDto {

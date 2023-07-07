@@ -1,12 +1,13 @@
 package com.clientes.reto.domain.service;
 import static org.mockito.BDDMockito.given;
 
+import com.clientes.reto.aplicacion.service.ProductService;
 import com.clientes.reto.domain.dto.PersonDto;
 import com.clientes.reto.domain.dto.ProductDto;
 import com.clientes.reto.domain.repository.IPersonRepository;
 import com.clientes.reto.domain.repository.IProdcutDtoRepository;
-import com.clientes.reto.persistence.enums.AccountType;
-import com.clientes.reto.persistence.enums.State;
+import com.clientes.reto.infrastructura.enums.AccountType;
+import com.clientes.reto.infrastructura.enums.State;
 import com.clientes.reto.utils.CustomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

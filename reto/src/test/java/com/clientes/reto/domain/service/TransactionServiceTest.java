@@ -1,13 +1,13 @@
 package com.clientes.reto.domain.service;
-import static org.assertj.core.api.Assertions.as;
 import static org.mockito.BDDMockito.given;
 
+import com.clientes.reto.aplicacion.service.TransactionService;
 import com.clientes.reto.domain.dto.ProductDto;
 import com.clientes.reto.domain.dto.TransactionDto;
 import com.clientes.reto.domain.repository.ITransactionRepository;
-import com.clientes.reto.domain.usecase.IProductUseCase;
-import com.clientes.reto.persistence.enums.AccountType;
-import com.clientes.reto.persistence.enums.TransactionsEnum;
+import com.clientes.reto.aplicacion.service.usecase.IProductUseCase;
+import com.clientes.reto.infrastructura.enums.AccountType;
+import com.clientes.reto.infrastructura.enums.TransactionsEnum;
 import com.clientes.reto.utils.CustomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
