@@ -2,9 +2,9 @@ package com.clientes.reto.aplicacion.service;
 
 import com.clientes.reto.domain.dto.PersonDto;
 import com.clientes.reto.domain.dto.ProductDto;
-import com.clientes.reto.domain.repository.IPersonRepository;
-import com.clientes.reto.domain.repository.IProdcutDtoRepository;
-import com.clientes.reto.aplicacion.usecase.IPersonUseCase;
+import com.clientes.reto.infrastructura.adapter.IPersonRepository;
+import com.clientes.reto.infrastructura.adapter.IProdcutDtoRepository;
+import com.clientes.reto.domain.usecase.IPersonUseCase;
 import com.clientes.reto.utils.CustomException;
 import com.clientes.reto.utils.Fecha;
 import org.springframework.beans.factory.annotation.Autowired;

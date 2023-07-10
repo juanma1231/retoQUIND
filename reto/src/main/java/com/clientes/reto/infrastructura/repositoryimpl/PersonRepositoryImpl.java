@@ -1,7 +1,7 @@
 package com.clientes.reto.infrastructura.repositoryimpl;
 
 import com.clientes.reto.domain.dto.PersonDto;
-import com.clientes.reto.domain.repository.IPersonRepository;
+import com.clientes.reto.infrastructura.adapter.IPersonRepository;
 import com.clientes.reto.infrastructura.entity.PersonEntity;
 import com.clientes.reto.infrastructura.mappers.PersonMapper;
 import com.clientes.reto.infrastructura.repository.PersonRepository;

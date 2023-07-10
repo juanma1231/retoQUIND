@@ -1,7 +1,7 @@
 package com.clientes.reto.infrastructura.repositoryimpl;
 
 import com.clientes.reto.domain.dto.ProductDto;
-import com.clientes.reto.domain.repository.IProdcutDtoRepository;
+import com.clientes.reto.infrastructura.adapter.IProdcutDtoRepository;
 import com.clientes.reto.infrastructura.entity.ProductEntity;
 import com.clientes.reto.infrastructura.mappers.ProductMapper;
 import com.clientes.reto.infrastructura.repository.ProductRepository;

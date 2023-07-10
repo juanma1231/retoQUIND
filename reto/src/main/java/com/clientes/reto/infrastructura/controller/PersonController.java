@@ -1,7 +1,7 @@
 package com.clientes.reto.infrastructura.controller;
 
 import com.clientes.reto.domain.dto.PersonDto;
-import com.clientes.reto.aplicacion.usecase.IPersonUseCase;
+import com.clientes.reto.domain.usecase.IPersonUseCase;
 
 import com.clientes.reto.utils.CustomException;
 

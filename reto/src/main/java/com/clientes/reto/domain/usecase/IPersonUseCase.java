@@ -1,4 +1,4 @@
-package com.clientes.reto.aplicacion.usecase;
+package com.clientes.reto.domain.usecase;
 
 import com.clientes.reto.domain.dto.PersonDto;
 

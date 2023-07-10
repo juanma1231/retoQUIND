@@ -1,7 +1,7 @@
 package com.clientes.reto.infrastructura.controller;
 
 import com.clientes.reto.domain.dto.ProductDto;
-import com.clientes.reto.aplicacion.usecase.IProductUseCase;
+import com.clientes.reto.domain.usecase.IProductUseCase;
 import com.clientes.reto.utils.CustomException;
 
 import com.clientes.reto.utils.Response;
