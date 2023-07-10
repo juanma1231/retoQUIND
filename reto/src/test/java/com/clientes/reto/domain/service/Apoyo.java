@@ -4,7 +4,7 @@ import static org.mockito.BDDMockito.given;
 
 import com.clientes.reto.aplicacion.service.PersonService;
 import com.clientes.reto.domain.dto.PersonDto;
-import com.clientes.reto.infrastructura.adapter.IPersonRepository;
+import com.clientes.reto.domain.adapter.IPersonRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

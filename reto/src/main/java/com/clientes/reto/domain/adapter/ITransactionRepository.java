@@ -1,4 +1,4 @@
-package com.clientes.reto.infrastructura.adapter;
+package com.clientes.reto.domain.adapter;
 
 import com.clientes.reto.domain.dto.TransactionDto;
 

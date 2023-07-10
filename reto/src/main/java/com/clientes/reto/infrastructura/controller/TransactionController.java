@@ -1,6 +1,6 @@
 package com.clientes.reto.infrastructura.controller;
 import com.clientes.reto.domain.dto.TransactionDto;
-import com.clientes.reto.domain.usecase.ITransactionUseCase;
+import com.clientes.reto.aplicacion.usecase.ITransactionUseCase;
 import com.clientes.reto.infrastructura.enums.TransactionsEnum;
 import com.clientes.reto.utils.CustomException;
 import com.clientes.reto.utils.Response;

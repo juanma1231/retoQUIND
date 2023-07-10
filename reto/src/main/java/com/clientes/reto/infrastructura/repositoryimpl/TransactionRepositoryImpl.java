@@ -1,7 +1,7 @@
 package com.clientes.reto.infrastructura.repositoryimpl;
 
 import com.clientes.reto.domain.dto.TransactionDto;
-import com.clientes.reto.infrastructura.adapter.ITransactionRepository;
+import com.clientes.reto.domain.adapter.ITransactionRepository;
 import com.clientes.reto.infrastructura.entity.TransactionEntity;
 import com.clientes.reto.infrastructura.mappers.TransactionMapper;
 import com.clientes.reto.infrastructura.repository.TransactionRepository;
